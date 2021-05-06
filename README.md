@@ -1,6 +1,6 @@
 # Voting-Website
 
-git clone 주소
+git clone https://github.com/sentiers/Voting-Website.git
 
 npm start
 
