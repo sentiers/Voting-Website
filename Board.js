@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const postSchema = new Schema({
     author : {
-        type : ObjectId, 
+        type : ObjectId, // 고유 id 받아옴 나중에 model.populate 이용해서 name 받아오세용
         required : true,
         ref : 'User', // user.js 스키마의 id를 참조함 - userd와 Board 연결
     },
@@ -21,7 +21,7 @@ const postSchema = new Schema({
         required : [true, '내용을 넣어주세요!'],
     },
     voteSelection : {
-        // dictionary 타입으로(선택지를 key값으로, value는 voteCount
+        // dictionary 타입으로 (선택지를 key값으로, value는 voteCount
     },
     isClosed : Boolean,
     postDate :  { type : Date, default : Date.now }, // 현재시간 자동 받음
