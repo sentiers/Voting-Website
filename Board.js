@@ -6,10 +6,10 @@ const voteSelectionSchema = new Schema({
     selection : {
         type : String,
     },
-    voteCoutn : {
+    voteCount : {
         type : Number,
     },
-})
+});
 
 const postSchema = new Schema({
     author : {
