@@ -1,6 +1,16 @@
 const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
 
+// dictionary 타입으로 (선택지를 key값으로, value는 voteCount)
+const voteSelectionSchema = new Schema({
+    selection : {
+        type : String,
+    },
+    voteCoutn : {
+        type : Number,
+    },
+})
+
 const postSchema = new Schema({
     author : {
         type : ObjectId, // 고유 id 받아옴 나중에 model.populate 이용해서 name 받아오세용
@@ -21,7 +31,7 @@ const postSchema = new Schema({
         required : [true, '내용을 넣어주세요!'],
     },
     voteSelection : {
-        // dictionary 타입으로 (선택지를 key값으로, value는 voteCount
+        type : [voteSelectionSchema],
     },
     isClosed : Boolean,
     postDate :  { type : Date, default : Date.now }, // 현재시간 자동 받음
