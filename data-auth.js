@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
@@ -16,22 +17,9 @@ var userSchema = new Schema({
     }]
 });
 
-let User;
+let User = mongoose.model("users", userSchema);
 
 ///////////////////////////////////////////////////
-//
-module.exports.initialize = function () {
-    return new Promise(function (resolve, reject) {
-        let db = mongoose.createConnection("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true , useUnifiedTopology: true, useCreateIndex: true});
-        db.on('error', (err) => {
-            reject(err);
-        });
-        db.once('open', () => {
-            User = db.model("users", userSchema);
-            resolve();
-        });
-    });
-};
 
 module.exports.registerUser = function (userData) {
     return new Promise(function (resolve, reject) {

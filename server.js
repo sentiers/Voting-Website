@@ -11,10 +11,6 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 //const { userRouter } = require('../src/userRoute') // lee
 
-// 수정해야함
-const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-
 ///////////////////////////////////////////////////
 
 app.use(express.static('public'));
@@ -60,8 +56,8 @@ app.get("/main", ensureLogin, function (req, res) {
   res.sendFile(path.join(__dirname, "./views/main.html"));
 });
 
-app.get("/anouncement", ensureLogin, function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/anouncement.html"));
+app.get("/announcement", ensureLogin, function (req, res) {
+  res.sendFile(path.join(__dirname, "./views/announcement.html"));
 });
 
 ///////////////         게시판       /////////////////////////////
@@ -128,17 +124,6 @@ app.use(function (req, res) {
   res.status(404).sendFile(path.join(__dirname, "/views/404.html"));
 });
 
-
-
 app.listen(HTTP_PORT, function () {
   console.log("app listening on: " + HTTP_PORT)
 });
-
-//dataServiceAuth.initialize(function () {
-//  app.listen(HTTP_PORT, function () {
-//    console.log("app listening on: " + HTTP_PORT)
-//  });
-//}).catch(function (err) {
-//  console.log("unable to start server: " + err);
-//});
-
