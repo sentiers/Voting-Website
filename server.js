@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const dataServiceAuth = require("./data-auth.js");
-//const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 //const fs = require("fs");
 //const multer = require("multer");
 //const exphbs = require("express-handlebars");
@@ -11,6 +11,9 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 //const { userRouter } = require('../src/userRoute') // lee
 
+// 수정해야함
+const mongoose = require("mongoose");
+mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 ///////////////////////////////////////////////////
 
@@ -125,13 +128,17 @@ app.use(function (req, res) {
   res.status(404).sendFile(path.join(__dirname, "/views/404.html"));
 });
 
-dataServiceAuth.initialize
-  .then(function () {
-    app.listen(HTTP_PORT, function () {
-      console.log("app listening on: " + HTTP_PORT)
-    });
-  }).catch(function (err) {
-    console.log("unable to start server: " + err);
-  });
 
-///////////////////////////////////////////////////
+
+app.listen(HTTP_PORT, function () {
+  console.log("app listening on: " + HTTP_PORT)
+});
+
+//dataServiceAuth.initialize(function () {
+//  app.listen(HTTP_PORT, function () {
+//    console.log("app listening on: " + HTTP_PORT)
+//  });
+//}).catch(function (err) {
+//  console.log("unable to start server: " + err);
+//});
+
