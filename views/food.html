@@ -23,120 +23,6 @@
 </head>
 
 <body id="page-top">
-    <div class="container" id="main">
-        <div class="col-md-12 col-sm-12 col-lg-12">
-          {{#question}}
-          <div class="panel panel-default">
-            <header class="qna-header">
-              <h2 class="qna-title">{{title}}</h2>
-            </header>
-            <div class="content-main">
-              <article class="article">
-                <div class="article-header">
-                  <div class="article-header-thumb">
-                    <img src="https://graph.facebook.com/v2.3/100000059371774/picture"
-                         class="article-author-thumb" alt="">
-                  </div>
-                  <div class="article-header-text">
-                    <a href="/users/92/kimmunsu" class="article-author-name">{{writer.userId}}</a>
-                    <a href="/questions/413" class="article-header-time" title="퍼머링크">
-                      {{formattedCreateDate}}
-                      <i class="icon-link"></i>
-                    </a>
-                  </div>
-                </div>
-                <div class="article-doc">{{contents}}</div>
-                <div class="article-util">
-                  <ul class="article-util-list">
-                    <li><a class="link-modify-article" href="/questions/{{id}}/form">수정</a></li>
-                    <li>
-                      <form class="form-delete" action="/questions/{{id}}" method="POST">
-                        <input type="hidden" name="_method" value="delete">
-                        <button class="link-delete-article" type="submit">삭제</button>
-                      </form>
-                    </li>
-                    <li><a class="link-modify-article" href="/">목록</a></li>
-                  </ul>
-                </div>
-              </article>
-      
-              <div class="qna-comment">
-                <div class="qna-comment-slipp">
-                  <p class="qna-comment-count">
-                    <strong>{{countOfAnswer}}</strong>개의 의견
-                  </p>
-                  <div class="qna-comment-slipp-articles">
-                    {{#answers}}
-                    <article class="article" id="answer-1405">
-                      <div class="article-header">
-                        <div class="article-header-thumb">
-                          <img src="https://graph.facebook.com/v2.3/1324855987/picture"
-                               class="article-author-thumb" alt="">
-                        </div>
-                        <div class="article-header-text">
-                          <a href="/users/1/자바지기" class="article-author-name">{{writer.userId}}</a>
-                          <a href="#answer-1434" class="article-header-time" title="퍼머링크">
-                            {{formattedCreateDate}} </a>
-                        </div>
-                      </div>
-                      <div class="article-doc comment-doc">
-                        <p>{{contents}}</p>
-                      </div>
-                      <div class="article-util">
-                        <ul class="article-util-list">
-                          <li>
-                            <a class="link-modify-article" href="/questions/413/answers/1405/form">수정</a>
-                          </li>
-                          <li>
-                            <a class="link-delete-article"
-                               href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </article>
-                    {{/answers}}
-                  </div>
-                  <form class="answer-write" method="post" action="/api/questions/{{id}}/answers">
-                    <div class="form-group" style="padding: 14px;">
-                      <textarea class="form-control" placeholder="Update your status"
-                                name="contents"></textarea>
-                    </div>
-                    <input type="submit" class="btn btn-success pull-right" value="답변하기"/>
-                    <div class="clearfix"/>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          {{/question}}
-        </div>
-      </div>
-      
-      <script type="text/template" id="answerTemplate">
-        <article class="article">
-          <div class="article-header">
-            <div class="article-header-thumb">
-              <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb"
-                   alt="">
-            </div>
-            <div class="article-header-text">
-              <a href="#" class="article-author-name">{0}</a>
-              <div class="article-header-time">{1}</div>
-            </div>
-          </div>
-          <div class="article-doc comment-doc">{2}</div>
-          <div class="article-util">
-            <ul class="article-util-list">
-              <li>
-                <a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
-              </li>
-              <li>
-                <a class="link-delete-article" href="/api/questions/{3}/answers/{4}">삭제</a>
-              </li>
-            </ul>
-          </div>
-        </article>
-      </script>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -278,6 +164,132 @@
 
                 </div>
                 <!-- /.container-fluid -->
+                <li class="box-w">
+                  <div id="recent-reply">
+                    <div class="group-tit">
+                      <h4 class="tcol-t">최근 댓글ㆍ답글</h4>
+                    </div>
+                    <ul class="group-list" id="first-reply-page">
+                      
+                      
+                      <li>
+                        <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                        
+                          <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=8001" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓2">
+                            <div class="ellipsis tcol-c">서면 질의 답변 & 큐브 보상안</div>
+                          </a>
+                        
+                        
+                      </li>
+                      
+                      <li>
+                        <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                        
+                          <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=8003" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓1">
+                            <div class="ellipsis tcol-c">오늘은 방송안하시는건가요?</div>
+                          </a>
+                        
+                        
+                      </li>
+                      
+                      <li>
+                        <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                        
+                          <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7999" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓2">
+                            <div class="ellipsis tcol-c">3주 챌린지 신청합니다.</div>
+                          </a>
+                        
+                        
+                      </li>
+                      
+                      <li>
+                        <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                        
+                          <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7998" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓17">
+                            <div class="ellipsis tcol-c">*댓글에 리그오브레전드 게임에 궁금한 질문을 써주세요! (3주 챌린지 이후 리뷰할 때 답해드리겠습니다)</div>
+                          </a>
+                        
+                        
+                      </li>
+                      
+                      <li>
+                        <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                        
+                          <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7997" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓1">
+                            <div class="ellipsis tcol-c">메린이 처음으로 칠흑 먹었습니다.</div>
+                          </a>
+                        
+                        
+                      </li>
+                      
+                    </ul>
+                    
+                    <ul class="group-list" id="second-reply-page" style="display:none;">
+                      
+                        <li>
+                          <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                          
+                            <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7986" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓15">
+                              <div class="ellipsis tcol-c">직업 추천좀..</div>
+                            </a>
+                          
+                          
+                        </li>
+                      
+                        <li>
+                          <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                          
+                            <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7995" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓3">
+                              <div class="ellipsis tcol-c">메린이 질문</div>
+                            </a>
+                          
+                          
+                        </li>
+                      
+                        <li>
+                          <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                          
+                            <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7994" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓1">
+                              <div class="ellipsis tcol-c">3주 챌린지 신청</div>
+                            </a>
+                          
+                          
+                        </li>
+                      
+                        <li>
+                          <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                          
+                            <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7993" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓2">
+                              <div class="ellipsis tcol-c">나초형...그곳에서 보고있어...?</div>
+                            </a>
+                          
+                          
+                        </li>
+                      
+                        <li>
+                          <div class="ball"><img src="https://ssl.pstatic.net/static/cafe/cafe_pc/ico-blank.png" width="3" height="3" alt="" class="tcol-c"></div>
+                          
+                            <a href="/ArticleRead.nhn?clubid=30212680&amp;articleid=7992" target="cafe_main" onclick="targetCleaner(this);" class="tcol-c tlink" title="답0/댓3">
+                              <div class="ellipsis tcol-c">2021-05-13 7:00pm Youtube & twitch Streaming</div>
+                            </a>
+                          
+                          
+                        </li>
+                      
+                    </ul>
+                
+                    <div class="pocket_nav p11">
+                      <span id="pre-reply-disable" class="tcol-c filter-50 display-inblock"><span class="blind">최근 댓글,답글 목록</span>이전</span>
+                      <span id="pre-reply-useable"  style="display:none;"><a href="javascript:toggleFirstReplyList()" class="tcol-c display-inblock"><span class="blind">최근 댓글,답글 목록</span>이전</a></span>
+                      <span class="tcol-c filter-25 display-inblock">ㅣ</span>
+                      <span id="next-reply-useable"><a href="javascript:toggleSecondReplyList()" class="tcol-c display-inblock"><span class="blind">최근 댓글,답글 목록</span>다음</a></span>
+                      <span id="next-reply-disable" style="display:none;" class="tcol-c filter-50 display-inblock"><span class="blind">최근 댓글,답글 목록</span>다음</span>
+                    </div>
+                    
+                  </div>
+                </li>
+                
+                
 
             </div>
             <!-- End of Main Content -->
