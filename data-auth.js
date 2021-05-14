@@ -14,7 +14,35 @@ var userSchema = new Schema({
     "loginHistory": [{
         "dateTime": Date,
         "userAgent": String
-    }]
+    }],
+    "my_vote" : [{String, unique: true}],
+    "vote_record" : [String],
+    "yousado~" : {
+        "board1" : [{
+            "비교user": {
+                "same" : Number,
+                "diff" : Number
+            }
+        }],
+        "board2" : [{
+            "비교user": {
+                "same" : Number,
+                "diff" : Number
+            }
+        }],
+        "board3" : [{
+            "비교user": {
+                "same" : Number,
+                "diff" : Number
+            }
+        }],
+        "board4" : [{
+            "비교user": {
+                "same" : Number,
+                "diff" : Number
+            }
+        }] // 의도 표현입니다...될지 안될지는 몰라요 ㅎ..
+    }
 });
 
 let User = mongoose.model("users", userSchema);
