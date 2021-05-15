@@ -1,4 +1,4 @@
-const mongoose = require("mongoose"); //감자
+const mongoose = require("mongoose");
 mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
@@ -15,7 +15,7 @@ var userSchema = new Schema({
         "dateTime": Date,
         "userAgent": String
     }],
-    "my_vote" : [{String, unique: true}],
+    "my_vote" : [String],
     "vote_record" : [String],
     "yousado~" : {
         "board1" : [{
