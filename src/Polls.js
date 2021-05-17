@@ -19,6 +19,11 @@ postNum :  { // 글 고유번호
     required : true,
 },
 
+body : { // 글 본문(투표 설명)
+  type : String,
+  required : true
+}
+
   options: [{ // 선택지
     optionName: String,
     votes: Number
