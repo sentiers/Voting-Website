@@ -78,6 +78,18 @@ app.get("/free", ensureLogin, function (req, res) {
   res.sendFile(path.join(__dirname, "./views/free.html"));
 });
 
+///////////////         투표 참여       /////////////////////////////
+
+app.get("/voteParticipation", ensureLogin, function (req, res) {
+  res.sendFile(path.join(__dirname, "./views/voteParticipation.html"));
+});
+
+///////////////         내 투표 목록       /////////////////////////////
+
+app.get("/myvotelist", ensureLogin, function (req, res) {
+  res.sendFile(path.join(__dirname, "./views/myvotelist.html"));
+});
+
 
 /////////////////    로그인, 레지스터    /////////////////////////////
 
