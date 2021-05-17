@@ -8,31 +8,28 @@ var PollSchema = new Schema({
         required : [true, '제목을 넣어주세요!'],
     },
 
-  author : { // 글쓴이
-    type : mongoose.Schema.Types.ObjectId, // 고유 id 받아옴 나중에 model.populate 이용해서 name 받아오세용
-    required : true,
-    ref : 'User', // user.js 스키마의 id를 참조함 - userd와 Board 연결
-},
+    author : { // 글쓴이
+        type : String,
+        required : true,
+        ref : 'User', // user.js 스키마의 id를 참조함 - userd와 Board 연결
+    },
 
-postNum :  { // 글 고유번호
-    type : String,
-    required : true,
-},
+    postNum :  { type : String, required : true,},
 
-body : { // 글 본문(투표 설명)
-  type : String,
-  required : true
-},
+    body : { // 글 본문(투표 설명)
+        type : String,
+        required : true
+    },
 
-  options: [{ // 선택지
-    optionName: String,
-    votes: Number
-  }],
+    options: [{ // 선택지
+        optionName: String,
+        votes: Number
+    }],
 
-  isClosed : Boolean, // 마감 여부
+    isClosed : Boolean, // 마감 여부
 
-  postDate :  { type : Date, default : Date.now },
-  // 현재 시간
+    postDate : { type : Date, default : Date.now },
+    // 현재 시간
 });
 
 PollSchema.methods.updateVotes = function(optionnumber){

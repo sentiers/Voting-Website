@@ -30,3 +30,21 @@ userRouter.post('/login', async(req,res) => {
         return res.status(500).send({err: err.message})
     }
 }) //의도 로그인이랄까..? 하지만 모르겠다..
+
+// 유저가 작성한 투표 보는 get (((User에 맞춰서 수정필요)))
+router.get('/Polls', 
+  function(req, res, next){
+    if(req.User){
+      getpolldata(req.User.userID, req, res, next);
+    }
+
+    else{
+      res.redirect('/401');
+      res.end();
+      return;
+    }
+  }, 
+  function(req, res, next){
+    res.jsonp({Polls:res.locals.result});
+  }
+);
