@@ -8,7 +8,7 @@ const clientSessions = require("client-sessions");
 //const exphbs = require("express-handlebars");
 
 const dataServiceAuth = require("./data-auth.js");
-const Polls = require("");
+//const Polls = require("");
 
 
 const HTTP_PORT = process.env.PORT || 8080;
