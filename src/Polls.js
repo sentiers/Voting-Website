@@ -3,13 +3,13 @@ var
   Schema = mongoose.Schema;
 
 var PollSchema = new Schema({
-    Title :  { // 투표 제목
+    title :  { // 투표 제목
         type : String,
         required : [true, '제목을 넣어주세요!'],
     },
 
   author : { // 글쓴이
-    type : ObjectId, // 고유 id 받아옴 나중에 model.populate 이용해서 name 받아오세용
+    type : mongoose.Schema.Types.ObjectId, // 고유 id 받아옴 나중에 model.populate 이용해서 name 받아오세용
     required : true,
     ref : 'User', // user.js 스키마의 id를 참조함 - userd와 Board 연결
 },
