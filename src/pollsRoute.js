@@ -3,84 +3,60 @@ var router = require('express').Router();
 var Polls  = require('../Polls');
 var User   = require('../User');
 
-// 하나의 글 보기
-router.get('/single',
-  function(req, res, next){
-    var 
-      loggedin   = req.User? true: false, // 로그인 여부 확인
-      voteHistory = [];
+//
+// == FUNCTION ==
+// 
 
-    voteHistory = (
-      loggedin === true ? req.User.voteHistory: (
-        'undefined' !== typeof req.session.PollsVoted? req.session.PollsVoted : []
-        ));
+function getpolldata(userid, req, res, next){
+  var searchfor = {};
+  if(userid) searchfor.creator = userid;
 
-    for(var i = 0; i<voteHistory.length; i++){
-      if(req.query.pollid==voteHistory[i]){
-        hasVoted = true;
-        break;
-      }
+  polls.find(searchfor, function(err, pollarr){
+    if(err) {
+      res.redirect('/')
     }
-    res.render('single', {logged:!loggedin, pollid: req.query.pollid});
-});
 
-//====DISPLAY POLLS BELONGING TO THE LOGGED IN USER============================
-router.get('/User', 
-  function(req, res, next){
-    var loggedin = req.User? true: false;
-    if(loggedin){
-      res.render('User', {page:'User'});
-      res.end();
-    }
     else{
-      res.redirect('/401');
+      res.locals.result = pollarr;
+      next();
     }
-});
+  });
+}
 
-//====FORM FOR ADDING A NEW POLL===============================================
-router.get('/add',
-  function(req, res, next){
-    var loggedin = req.User? true: false;
-    if(req.User)
-      res.render('add', {logged: !loggedin, page: 'add'});
-    else
-      res.redirect('/401');
+// ***********************************************************************
+// ***************************ROUTE PART**********************************
+// ***********************************************************************
 
-})
+//
+// == 에러 페이지 ==
+//
 
-//====ERROR PAGES========================================================
-//====404 PAGE NOT FOUND=================================================
-router.get('/404',
+// == 404 PAGE NOT FOUND ==
+router.get('/404', // 링크에 domain/404 들어오면 404 에러 발생
   function(req, res, next){
     res.status('404');
     res.end('The page you are looking for does not exist');
   });
 
-//====500 INTERNAL SERVER ERROR=========================================
-router.get('/500', 
+// == 500 INTERNAL SERVER ERROR ==
+router.get('/500', // 링크에 domain/500 들어오면 500 에러 발생
   function(req, res, next){
     res.status('500');
     res.end('Internal server error');
 });
 
-//====401 UNAUTHORIZED ACCESS==============================================
-router.get('/401',
+// == 401 UNAUTHORIZED ACCESS ==
+router.get('/401', // 링크에 domain/401 들어오면 401 에러 발생
   function(req, res, next){
     res.status('401').end('Unauthorized access');
   })
 
+// ***********************************************************************
 
-
-
-
-
-
-
-
-
-
-//====GET ALL POLLS --- FOR HOME PAGE=====================================
-router.get('/Polls/all', // domain -> /Polls/all 주소에 function 동작하도록 요청
+// 페이지에서 투표 목록 보기
+router.get('/Polls/all', 
+// domain -> /Polls/all 주소에 function 동작하도록 요청
+// all을 카테고리 명칭마다 연결되게 바꾸기 food love fashion free 🥕
   function(req, res, next){
     getpolldata(null, req, res, next);
   }, 
