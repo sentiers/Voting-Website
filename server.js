@@ -63,21 +63,6 @@ app.get("/announcement", ensureLogin, function (req, res) {
   res.sendFile(path.join(__dirname, "./views/announcement.html"));
 });
 
-///////////////// 투표 게시 //////////////////////////
-
-app.get("/create", ensureLogin, function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/create.html"));
-});
-
-app.post("/create", function (req, res) {
-  Polls.somefunction(req.body) //함수이름 Polls에서 가져오기
-    .then(() => {
-      res.redirect.window.history.back(); //고쳐야할수도
-    }).catch((err) => {
-      res.redirect("/create");
-    });
-});
-
 ///////////////         게시판       /////////////////////////////
 
 app.get("/food", ensureLogin, function (req, res) {
