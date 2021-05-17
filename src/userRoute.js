@@ -31,6 +31,7 @@ userRouter.post('/login', async(req,res) => {
     }
 }) //의도 로그인이랄까..? 하지만 모르겠다..
 
+
 // 유저가 작성한 투표 보는 get (((User에 맞춰서 수정필요)))
 router.get('/Polls', 
   function(req, res, next){

@@ -68,11 +68,8 @@ var User = mongoose.model("users", userSchema);
 module.exports = User;
 
 // userRoute에 넣어야 할 function
-// getpolldata (userid, req, res, next)
-// getpollbyid (id, req, res, next)
+// GET POLLS BELONGING TO USER
 // addpolltouser (pollid, req, res, next)
 // addpollsoffline (pollid, req, res, next)
 // https://github.com/imtoobose/voting-app/blob/master/app/routes/addpolls.js
 // 여기에 있는 함수를 User Schema에 맞게
-
-// voteHistory 배열방식으로 수정했어요!

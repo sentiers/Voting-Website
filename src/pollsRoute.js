@@ -23,6 +23,19 @@ function getpolldata(userid, req, res, next){
   });
 }
 
+//====GET POLL BY postNum===========================================================
+function getpollbypostNum(id, req, res, next){
+  polls.find({_id: id}, function(err, poll){
+    if(err) {
+      res.redirect('/404');
+    }
+    else{
+      res.locals.poll = poll;
+      next();
+    }
+  })
+}
+
 // ***********************************************************************
 // ***************************ROUTE PART**********************************
 // ***********************************************************************
@@ -68,7 +81,7 @@ router.get('/Polls/all',
 router.get('/Polls/getone/:pollid',
   function(req, res, next){
     if(req.params.pollid){
-      getpollbyid(req.params.pollid, req, res, next);
+      getpollbypostNum(req.params.pollid, req, res, next);
     }
 
     else { 
