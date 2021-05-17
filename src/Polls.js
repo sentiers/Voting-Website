@@ -30,18 +30,22 @@ body : { // 글 본문(투표 설명)
   }],
 
   isClosed : Boolean, // 마감 여부
+
   postDate :  { type : Date, default : Date.now },
-  // 현재시간 - 자동으로 받아서 게시판 글 목록에서 정렬
+  // 현재 시간
 });
 
 PollSchema.methods.updateVotes = function(optionnumber){
-  if(typeof optionnumber === 'number' && optionnumber<this.options.length){
-    this.options[optionnumber].votes+=1;
+    if(typeof optionnumber === 'number' && optionnumber<this.options.length){
+      this.options[optionnumber].votes+=1;
+    }
   }
-}
+// 투표되면 투표 수 추가하는 메소드
 
 var Polls = mongoose.model('Polls', PollSchema);
 module.exports= Polls;
+
+
 
 /*const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
@@ -80,9 +84,8 @@ const postSchema = new Schema({
     },
     isClosed : Boolean,
     postDate :  { type : Date, default : Date.now }, // 현재시간 자동 받음
-});*/
+});
 
-/*
 https://youwaytogo.tistory.com/55 // 실시간 투표 시스템 socket.io 제외하고
 https://github.com/bghgu/project_vote_info // 성공회대 프로젝트 투표 시스템
 https://miryang.dev/2019/04/02/nodejs-page-1/ // 홈페이지 만들기 처음부터
