@@ -11,7 +11,7 @@ function getpolldata(userid, req, res, next){
   var searchfor = {};
   if(userid) searchfor.creator = userid;
 
-  polls.find(searchfor, function(err, pollarr){
+  Polls.find(searchfor, function(err, pollarr){
     if(err) {
       res.redirect('/')
     }
@@ -23,9 +23,9 @@ function getpolldata(userid, req, res, next){
   });
 }
 
-//====GET POLL BY postNum===========================================================
+// GET POLL BY postNum
 function getpollbypostNum(id, req, res, next){
-  polls.find({_id: id}, function(err, poll){
+  Polls.find({_id: id}, function(err, poll){
     if(err) {
       res.redirect('/404');
     }
@@ -37,7 +37,7 @@ function getpollbypostNum(id, req, res, next){
 }
 
 // ***********************************************************************
-// ***************************ROUTE PART**********************************
+// ***************************  ROUTE PART  ******************************
 // ***********************************************************************
 
 //
@@ -69,7 +69,7 @@ router.get('/401', // 링크에 domain/401 들어오면 401 에러 발생
 // 페이지에서 투표 목록 보기
 router.get('/Polls/all', 
 // domain -> /Polls/all 주소에 function 동작하도록 요청
-// all을 카테고리 명칭마다 연결되게 바꾸기 food love fashion free 🥕
+// all을 카테고리 명칭마다 연결되게 바꾸기 food love fashion free 🥕당근
   function(req, res, next){
     getpolldata(null, req, res, next);
   }, 
@@ -78,10 +78,10 @@ router.get('/Polls/all',
   });
 
 //====GET ONE POLL --- SINGLE PAGE=========================================
-router.get('/Polls/getone/:pollid',
+router.get('/Polls/getone/:postNum',
   function(req, res, next){
-    if(req.params.pollid){
-      getpollbypostNum(req.params.pollid, req, res, next);
+    if(req.params.postNum){
+      getpollbypostNum(req.params.postNum, req, res, next);
     }
 
     else { 
@@ -94,14 +94,17 @@ router.get('/Polls/getone/:pollid',
   }
 );
 
-//=====POST REQUESTS====================================================
-//====ADD A NEW POLL=====================================================
+// == POST ==
+// ==ADD A NEW POLL ==
+
 router.post('/Polls/add', function(req, res, next){
   if(req.User){
     var 
       newPoll  = new Polls(),
       options  = [],
-      voteName = +req.body.voteName;
+      title = +req.body.title;
+
+
 
     for(var i = 0; i< req.body.addoption.length; i++){
 
@@ -117,16 +120,18 @@ router.post('/Polls/add', function(req, res, next){
       options[(+voteName)-1].votes = 1;
     }
 
-    newPoll.name      = req.body.pollname;
+    newPoll.title     = req.body.pollname;
     newPoll.options   = options;
-    newPoll.creator   = req.User.id;
-    newPoll.chartType = req.body.chartName;
+    newPoll.author    = req.User.userName;
+    newPoll.isClosed  = 0;
+    newPoll.postDate  = Date.now();
+    newPoll.chartType = req.body.chartName; // 결과창 차트 연결?
     newPoll.save(function(err){
 
       if(err) {
         console.log(err);
         res.redirect('/500');
-      }
+      } // 에러나면 500에러
 
       else{
         addpolltoUser(newPoll._id, req, res, next);
@@ -141,35 +146,29 @@ router.post('/Polls/add', function(req, res, next){
 
 
 
-//====ADD OPTION OR VOTE FOR A POLL=====================================
-router.post('/Polls/vote/:pollid', function(req, res, next){
-  if(req.body.vote && req.params.pollid){
+// == ADD VOTE FOR A POLL ==
+router.post('/Polls/vote/:postNum', function(req, res, next){
+  if(req.body.vote && req.params.postNum){
 
     //====ADD AN OPTION AND VOTE FOR IT=================================
 
     if(req.body.vote=="add"){
       if(req.body.addoption.length>0){
 
-        //===FIND ONE POLL BY ID AND RETURN IT==========================
-
-        Polls.findOne({_id: req.params.pollid}, function(err, found){          
+        // postNum으로 올려진 투표 탐색
+        Polls.findOne({_id: req.params.postNum}, function(err, found){          
           if(err) {
             console.log(err);
             res.redirect('/404');
           }
 
-          //====ADD AN OPTION TO THE POLL================================
-
-          //====THIS FUNCTION IS PART OF THE PROTOTYPE OF POLLS SCHEMA====
-
-          //====IT IS DEFINED IN app/mongo/Polls.js=======================
-
+          // == 옵션 추가 == -> 165줄부터 199줄까지 넣을지 말지 결정 X 🥕당근
+         
           found.addOption(req.body.addoption, res);
-
-          //====CHECK IF THE OPTION IS ADDED=============================
-
+          
+          // 이미 추가된 옵션인지 확인
           if(res.locals.added==="no") {
-            res.redirect('/single?pollid='+req.params.pollid);
+            res.redirect('/single?postNum='+req.params.postNum);
           }
 
           else {
@@ -181,7 +180,7 @@ router.post('/Polls/vote/:pollid', function(req, res, next){
 
               else{
                 if(req.User){
-                  addpolltoUser(req.params.pollid, req, res, next);
+                  addpolltoUser(req.params.postNum, req, res, next);
                 }
 
                 else{
@@ -194,37 +193,28 @@ router.post('/Polls/vote/:pollid', function(req, res, next){
       }
 
       else{
-        res.redirect('/single?pollid='+req.params.pollid);
+        res.redirect('/single?postNum='+req.params.postNum);
       }
     }
 
-    //====VOTE FOR EXISTING OPTION=======================================
-
+    // 이미 있는 옵션에 투표
     else {
-
-      //====FIND POLL BY ID==============================================
-
-      Polls.findOne({_id: req.params.pollid}, function(err, found){
+      // postNum으로 글 찾아서 투표
+      Polls.findOne({_id: req.params.postNum}, function(err, found){
         if(err) {
           console.log(err);
           res.redirect('/500');
         }
 
-        //====UPDATE REQUIRED VOTE=======================================
-
-        //====THIS FUNCTION IS PART OF THE PROTOTYPE OF POLLS SCHEMA=====
-
-        //====IT IS DEFINED IN app/mongo/Polls.js========================
-
-        found.updateVotes(+req.body.vote);
+        found.updateVotes(+req.body.vote); // Polls.js 스키마 참고
         found.save(function(err){
           if(err) throw err;
           if(req.User){
-            addpolltoUser(req.params.pollid, req, res, next);
+            addpolltoUser(req.params.postNum, req, res, next);
           }
 
           else{
-            addPollsoffline(req.params.pollid, req, res, next);
+            addPollsoffline(req.params.postNum, req, res, next);
           }
         });
       });
@@ -236,12 +226,12 @@ router.post('/Polls/vote/:pollid', function(req, res, next){
   }
 });
 
-//====DELETE A POLL====================================================
+// == 투표 삭제 == 이것도 넣을지 말지.. 🥕당근
 
-router.post('/Polls/delete/:pollid', function(req, res, next){
+router.post('/Polls/delete/:postNum', function(req, res, next){
   if(req.User){
-    if(req.params.pollid.length>0){
-      Polls.findOne({_id: req.params.pollid}, function(err, found){
+    if(req.params.postNum.length>0){
+      Polls.findOne({_id: req.params.postNum}, function(err, found){
         if(err){
           console.log(err);
           res.redirect('/User');
