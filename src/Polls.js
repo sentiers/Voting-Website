@@ -16,7 +16,7 @@ var PollSchema = new Schema({
 
     postNum :  { type : String, required : true,},
 
-    body : { // 글 본문(투표 설명)
+    poll_body : { // 글 본문(투표 설명)
         type : String,
         required : true
     },
@@ -38,6 +38,22 @@ PollSchema.methods.updateVotes = function(optionnumber){
     }
   }
 // 투표되면 투표 수 추가하는 메소드
+
+PollSchema.methods.addOption = function(option, res){
+    if(typeof option === 'string'){
+      for(var i=0; i<this.options.length; i++){
+        if(this.options[i].optionName.toLowerCase()===option.toLowerCase()) {
+          res.locals.added = "no";
+          return;
+        }
+      }
+      this.options.push({
+        optionName: option,
+        votes: 1
+      });
+    }
+  }
+  // 선택지 추가 메소드
 
 var Polls = mongoose.model('Polls', PollSchema);
 module.exports= Polls;

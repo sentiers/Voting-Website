@@ -77,7 +77,7 @@ router.get('/Polls/all',
     res.jsonp({Polls: res.locals.result}); // json 형태로 응답
   });
 
-//====GET ONE POLL --- SINGLE PAGE=========================================
+// postNum 도메인으로 투표창 호출 (게시글 보기)
 router.get('/Polls/getone/:postNum',
   function(req, res, next){
     if(req.params.postNum){
