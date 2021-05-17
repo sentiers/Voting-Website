@@ -1,51 +1,9 @@
 const mongoose = require("mongoose");
 mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-const Schema = mongoose.Schema;
+
 const bcrypt = require("bcryptjs");
 
-var userSchema = new Schema({
-    "userName": {
-        type: String,
-        unique: true
-    },
-    "password": String,
-    "age": Number,
-    "gender": Number,
-    "loginHistory": [{
-        "dateTime": Date,
-        "userAgent": String
-    }],
-    "my_vote" : [String],
-    "vote_record" : [String],
-    "yousado~" : {
-        "board1" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board2" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board3" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board4" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }] // 의도 표현입니다...될지 안될지는 몰라요 ㅎ..
-    }
-});
-
-let User = mongoose.model("users", userSchema);
+var User = require('./src/User.js');
 
 ///////////////////////////////////////////////////
 

@@ -1,12 +1,15 @@
 const express = require("express");
+const app = express();
 const path = require("path");
-const dataServiceAuth = require("./data-auth.js");
 const bodyParser = require("body-parser");
+const clientSessions = require("client-sessions");
 //const fs = require("fs");
 //const multer = require("multer");
 //const exphbs = require("express-handlebars");
-const app = express();
-const clientSessions = require("client-sessions");
+
+const dataServiceAuth = require("./data-auth.js");
+
+
 const HTTP_PORT = process.env.PORT || 8080;
 
 //const { userRouter } = require('../src/userRoute') // lee

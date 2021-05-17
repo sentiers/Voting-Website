@@ -1,16 +1,51 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true }, // 닉네임
-    userID: { type: String, required: true }, //id
-    age: { type: Number, required: true },
-    gender: { type: Number, required: true },
-    voteHistory: [],
-    password: { type: String, required: true }
-}, { timestamps: true }) // 타임스탬프 필요한가여..??
+var userSchema = new Schema({
+  "userName": {
+      type: String,
+      unique: true
+  },
+  "password": String,
+  "age": Number,
+  "gender": Number,
+  "loginHistory": [{
+      "dateTime": Date,
+      "userAgent": String
+  }],
+  "my_vote" : [String],
+  "vote_record" : [String],
+  "yousado~" : {
+      "board1" : [{
+          "비교user": {
+              "same" : Number,
+              "diff" : Number
+          }
+      }],
+      "board2" : [{
+          "비교user": {
+              "same" : Number,
+              "diff" : Number
+          }
+      }],
+      "board3" : [{
+          "비교user": {
+              "same" : Number,
+              "diff" : Number
+          }
+      }],
+      "board4" : [{
+          "비교user": {
+              "same" : Number,
+              "diff" : Number
+          }
+      }] // 의도 표현입니다...될지 안될지는 몰라요 ㅎ..
+  }
+});
+
 
 // 유저가 한 투표 voteHistory 배열에 push
-userScheme.methods.hasVoted =  function(postNum){ 
+userSchema.methods.hasVoted =  function(postNum){ 
     var check = false;
     for(var i=0; i<this.voteHistory.length; i++){
       if(this.voteHistory[i] ==  postNum){
@@ -29,8 +64,8 @@ userScheme.methods.hasVoted =  function(postNum){
   }
 
 
-const User = mongoose.model('user', UserSchema)
-module.exports = { User }
+var User = mongoose.model("users", userSchema);
+module.exports = User;
 
 // userRoute에 넣어야 할 function
 // getpolldata (userid, req, res, next)
