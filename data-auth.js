@@ -1,54 +1,15 @@
-const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
-
-var userSchema = new Schema({
-    "userName": {
-        type: String,
-        unique: true
-    },
-    "password": String,
-    "age": Number,
-    "gender": Number,
-    "loginHistory": [{
-        "dateTime": Date,
-        "userAgent": String
-    }],
-    "my_vote" : [String],
-    "vote_record" : [String],
-    "yousado~" : {
-        "board1" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board2" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board3" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }],
-        "board4" : [{
-            "비교user": {
-                "same" : Number,
-                "diff" : Number
-            }
-        }] // 의도 표현입니다...될지 안될지는 몰라요 ㅎ..
-    }
-});
-
-let User = mongoose.model("users", userSchema);
+const mongoose = require("mongoose");
+mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/votingDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 ///////////////////////////////////////////////////
 
+var User = require('./src/User.js');
+
+///////////////////////////////////////////////////
+
+
+// 회원가입하고 비밀번호암호화하는 함수
 module.exports.registerUser = function (userData) {
     return new Promise(function (resolve, reject) {
         if (userData.password != userData.password2) {
@@ -79,6 +40,8 @@ module.exports.registerUser = function (userData) {
     });
 };
 
+
+// 로그인할때 사용자의 아이디와 비밀번호가 매칭하는지 확인하는 함수
 module.exports.checkUser = function (userData) {
     return new Promise(function (resolve, reject) {
         User.find({ userName: userData.userName })

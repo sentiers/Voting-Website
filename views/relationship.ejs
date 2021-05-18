@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,16 +10,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>고민 멈춰! - announcement</title>
+    
+    <title>고민 멈춰! - relationship</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -26,6 +31,7 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
+
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -153,12 +159,48 @@
                 <!-- End of Topbar -->
 
 
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+              
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">공지사항</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">연애</h1>
+                        <a href="/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> 투표 만들기</a>
+                    </div>
+
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">투표 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>제목</th>
+                                            <th>날짜</th>
+                                            <th>사용자</th>
+                                            <th>마감여부</th>
+                                        </tr>
+                                    </thead>
+                                    <% datas.forEach(function(data) { %>
+                                    <tbody>
+                                        <tr>
+                                            <td><%= data.title %></td>
+                                            <td><%= data.postDate %></td>
+                                            <td><%= data.author %></td>
+                                            <td><%= data.isClosed %></td>
+                                        </tr>
+                                    </tbody>
+                                    <% }) %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -176,6 +218,7 @@
             </footer>
             <!-- End of Footer -->
 
+
         </div>
         <!-- End of Content Wrapper -->
 
@@ -186,7 +229,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -196,6 +239,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 </body>
 

@@ -1,13 +1,21 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
-const UserShcema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true }, // 닉네임
-    userID: { type: String, required: true }, //id
-    age: { type: Number, required: true },
-    gender: { type: Number, required: true },
-    voteHistory: String,
-    password: { type: String, required: true }
-}, { timestamps: true }) // 타임스탬프 필요한가여..??
+var userSchema = new Schema({
+  "userName": {
+      type: String,
+      unique: true
+  },
+  "password": String,
+  "age": Number,
+  "gender": Number,
+  "loginHistory": [{
+      "dateTime": Date,
+      "userAgent": String
+  }],
+  "voteRecord" : [{String}]
+});
 
-const User = mongoose.model('user', UserSchema)
-module.exports = { User }
+var User = mongoose.model("users", userSchema);
+
+module.exports = User;

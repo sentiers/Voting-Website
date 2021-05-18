@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>고민 멈춰! - announcement</title>
+    <title>고민 멈춰! - create</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,6 +27,7 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
+
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -152,19 +154,58 @@
                 </nav>
                 <!-- End of Topbar -->
 
-
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">공지사항</h1>
+                    <h1 class="h3 mb-4 text-gray-800">투표 생성</h1>
+                    <form class="board" method="post" action="/create">
+
+                        <div class="form-group">
+                            <select class="custom-select" name="board" id="board" required>
+                                <option value="" disabled selected>게시판 선택</option>
+                                <option value="1">음식</option>
+                                <option value="2">연애</option>
+                                <option value="3">패션</option>
+                                <option value="4">자유</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control form-control-user" id="title" name="title"
+                                type="text" placeholder="투표 제목 입력" required>
+                                <br>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input class="form-control form-control-user" id="body" name="body"
+                                type="text" placeholder="내용 입력" required>
+                                <br>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input class="form-control form-control-user" id="option1" name="option1"
+                                type="text" placeholder="선택지 입력" required>
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input class="form-control form-control-user" id="option2" name="option2"
+                                type="text" placeholder="선택지 입력" required>
+                            </div>
+                  
+                        </div>
+
+                        <input type="submit" class="btn btn-primary btn-user btn-block" value="게시하기" />
+
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
+
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -186,7 +227,8 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
