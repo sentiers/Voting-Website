@@ -9,20 +9,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>고민 멈춰! - 내 투표 목록</title>
+    
+    <title>고민 멈춰! - food</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
 <body id="page-top">
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -152,161 +157,53 @@
                 </nav>
                 <!-- End of Topbar -->
 
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+              
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">내 투표 목록</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">내 투표목록</h1>
+                       
+                    </div>
+
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">투표 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>제목</th>
+                                            <th>날짜</th>
+                                            <th>사용자</th>
+                                            <th>마감여부</th>
+                                        </tr>
+                                    </thead>
+                                    <% datas.forEach(function(data) { %>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="/food/<%= data._id %>"><%= data.title %></a></td>
+                                            <td><%= data.postDate %></td>
+                                            <td><%= data.author %></td>
+                                            <td><%= data.isClosed %></td>
+                                        </tr>
+                                    </tbody>
+                                    <% }) %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
-                <div class="article-board m-tcol-c" id="upperArticleList">
 
-                  <table>
-                  
-                    <colgroup>
-
-                            
-                              <col style="width:100px">
-                              <col>
-                              <col style="width:170px">
-                              <col style="width:120px">
-                              <col style="width:100px">
-                              
-
-                    </colgroup>
-                    <thead>
-                    
-                    <tr id="normalTableTitle">
-                      <th>
-                        
-                        
-                      </th>
-                      <th scope="col"><span class="article_title">제목</span></th>
-                      <th scope="col" class="th_name">작성자</th>
-                      <th scope="col">작성일</th>
-                      <th scope="col">조회</th>
-  
-                    </tr>
-                    <tr id="simpleTableTitle" style="display:none;">
-                      
-                        <th colspan="6" style="height:4px;padding: 7px;"></th>
-                      
-                      
-                    </tr>
-                    </thead>
-                    <tbody>
-                    
-                        <tr class="_noticeArticle board-notice type_main">
-                            <td colspan="2" class="td_article">
-                                
-                               
-                                <div class="board-list">
-                                    <div class="inner_list">
-                                   
-                                        <a href='/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641' onclick="clickcr(this, 'gnr.notice','','',event);" class="article">
-                               
-                                           내 질문 4
-                                        </a>
-        
-                                            <a href="/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641&amp;commentFocus=true" onclick="clickcr(this, 'gnr.noticecmt', '', '', event);" class="cmt">
-                                                [<em>9</em>]
-                                            </a>
-                               
-                                    </div>
-                                </div>
-                            </td>
-        
-                            <td class="td_name"><div class="pers_nick_area"><table role="presentation" cellspacing="0"><tr><td class="p-nick"><a href="#" class="m-tcol-c" onclick="ui(event, 'nannanacho',3,'나초','30212680','', 'false', 'true', 'nannanacho', 'false', '1'); return false;">나초</a><span class="mem-level"><img src='https://cafe.pstatic.net/levelicon/1/1_999.gif' width='11' height='11'></span></td></tr></table></div><script type="text/javascript">wordBreak($("top_nannanacho_1"));</script></td>
-                            <td class="td_date">2021.02.09.</td>
-                            <td class="td_view">1,093</td>
-                          
-                        </tr>
-                    
-                        <tr class="_noticeArticle board-notice type_main">
-                          <td colspan="2" class="td_article">
-                           
-                            <div class="board-list">
-                              <div class="inner_list">
-       
-                                <a href='/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=546' onclick="clickcr(this, 'gnr.notice','','',event);" class="article">
-                  
-                
-                                  내 질문 3
-                                </a>
- 
-                                  <a href="/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=546&amp;commentFocus=true" onclick="clickcr(this, 'gnr.noticecmt', '', '', event);" class="cmt">
-                                    [<em>168</em>]
-                                  </a>
- 
-                              </div>
-                            </div>
-                          </td>
-                
-                          <td class="td_name"><div class="pers_nick_area"><table role="presentation" cellspacing="0"><tr><td class="p-nick"><a href="#" class="m-tcol-c" onclick="ui(event, 'nannanacho',3,'nannanacho','30212680','', 'false', 'true', 'nannanacho', 'false', '1'); return false;">nannanacho</a><span class="mem-level"><img src='https://cafe.pstatic.net/levelicon/1/1_999.gif' width='11' height='11'></span></td></tr></table></div><script type="text/javascript">wordBreak($("top_nannanacho_2"));</script></td>
-                          <td class="td_date">2020.10.04.</td>
-                          <td class="td_view">3,289</td>
-                          
-                        
-                        </tr>
-                        <tr class="_noticeArticle board-notice type_main">
-                            <td colspan="2" class="td_article">
-                          
-                                <div class="board-list">
-                                    <div class="inner_list">
-                                   
-                                        <a href='/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641' onclick="clickcr(this, 'gnr.notice','','',event);" class="article">
-                               
-                                            내 질문 2
-                                        </a>
-        
-                                            <a href="/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641&amp;commentFocus=true" onclick="clickcr(this, 'gnr.noticecmt', '', '', event);" class="cmt">
-                                                [<em>9</em>]
-                                            </a>
-                               
-                                    </div>
-                                </div>
-                            </td>
-        
-                            <td class="td_name"><div class="pers_nick_area"><table role="presentation" cellspacing="0"><tr><td class="p-nick"><a href="#" class="m-tcol-c" onclick="ui(event, 'nannanacho',3,'나초','30212680','', 'false', 'true', 'nannanacho', 'false', '1'); return false;">나초</a><span class="mem-level"><img src='https://cafe.pstatic.net/levelicon/1/1_999.gif' width='11' height='11'></span></td></tr></table></div><script type="text/javascript">wordBreak($("top_nannanacho_1"));</script></td>
-                            <td class="td_date">2021.02.09.</td>
-                            <td class="td_view">1,093</td>
-                          
-                        </tr>
-                        <tr class="_noticeArticle board-notice type_main">
-                            <td colspan="2" class="td_article">
-                                
-                                <div class="board-list">
-                                    <div class="inner_list">
-                                   
-                                        <a href='/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641' onclick="clickcr(this, 'gnr.notice','','',event);" class="article">
-                               
-                                            내 질문 1
-                                        </a>
-        
-                                            <a href="/ArticleRead.nhn?clubid=30212680&amp;menuid=1&amp;boardtype=L&amp;page=1&amp;specialmenutype=&amp;userDisplay=15&amp;articleid=6641&amp;commentFocus=true" onclick="clickcr(this, 'gnr.noticecmt', '', '', event);" class="cmt">
-                                                [<em>9</em>]
-                                            </a>
-                               
-                                    </div>
-                                </div>
-                            </td>
-        
-                            <td class="td_name"><div class="pers_nick_area"><table role="presentation" cellspacing="0"><tr><td class="p-nick"><a href="#" class="m-tcol-c" onclick="ui(event, 'nannanacho',3,'나초','30212680','', 'false', 'true', 'nannanacho', 'false', '1'); return false;">나초</a><span class="mem-level"><img src='https://cafe.pstatic.net/levelicon/1/1_999.gif' width='11' height='11'></span></td></tr></table></div><script type="text/javascript">wordBreak($("top_nannanacho_1"));</script></td>
-                            <td class="td_date">2021.02.09.</td>
-                            <td class="td_view">1,093</td>
-                        </tr>
-                    
-                    </tbody>
-                  </table>
-                </div>
- 
-                <div class="post_btns">
-
-                            <div class="fr">
-                 
-                            </div>
-                </div>
+            </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -319,6 +216,7 @@
             </footer>
             <!-- End of Footer -->
 
+
         </div>
         <!-- End of Content Wrapper -->
 
@@ -330,7 +228,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -340,6 +237,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 </body>
 

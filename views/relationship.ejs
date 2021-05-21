@@ -190,7 +190,7 @@
                                     <% datas.forEach(function(data) { %>
                                     <tbody>
                                         <tr>
-                                            <td><%= data.title %></td>
+                                            <td><a href="/relationship/<%= data._id %>"><%= data.title %></a></td>
                                             <td><%= data.postDate %></td>
                                             <td><%= data.author %></td>
                                             <td><%= data.isClosed %></td>

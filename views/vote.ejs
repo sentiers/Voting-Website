@@ -12,13 +12,13 @@
     <title>고민 멈춰! - voteParticipation</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -127,7 +127,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">사용자</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -154,13 +154,16 @@
                 <!-- End of Topbar -->
 
                 <div class="article-board m-tcol-c">
+                    <% datas.forEach(function(data) { %>
+                        <% var urlId = url.split('/') %>
+                        <% if (data._id == urlId[2]) { %>
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h2 class="m-0 font-weight-bold text-primary">오늘 저녁 치킨 VS 피자</h6>
+                            <h2 class="m-0 font-weight-bold text-primary"><%= data.title %></h6>
                         </div>
                         <div class="card-body">
-                            <p style="text-align:center">저녁으로 XX치킨이랑 OO피자 중에 어느 것을 먹을까요?<br>투표 부탁드립니다!</p>
+                            <p style="text-align:center"><%= data.body %></p>
 
                             <div class="text-center">
                                 <!-- Button -->
@@ -170,7 +173,7 @@
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text">XX치킨</span>
+                                        <span class="text"><%= data.option1 %></span>
                                         
                                     </a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -178,12 +181,16 @@
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text">OO피자</span>
+                                        <span class="text"><%= data.option2 %></span>
                                     </a>
                                     <br>
                                 </div>
+                            </div>
                         </div>
                     </div>
+                    <% } %>
+                    <% }) %>
+                </div>
                 
                 <div class="post_btns">
 
@@ -218,14 +225,14 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
 </body>
 

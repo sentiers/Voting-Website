@@ -16,6 +16,7 @@ app.set('view engine', 'ejs');
 //----------------------------------------------------
 
 app.use(function (req, res, next) {
+  res.locals.url = req.originalUrl; // ejs에서 url 필요해서 추가
   let route = req.baseUrl + req.path;
   app.locals.activeRoute = (route == "/") ? "/" : route.replace(/\/$/, "");
   next();
@@ -79,25 +80,41 @@ app.post("/create", function (req, res) {
 
 ///////////////// 투표 참여, 결과 관련 //////////////////////////
 
+// 음식
 app.get("/food/:id", ensureLogin, function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/vote.html"));
-
-  // 음식 게시물에서 투표제목클릭하면 그 투표의 창이 뜨게하는것
-
+  polls.getAllFood().then((data) => {
+    res.render('vote', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
 });
 
-
 // 연애
+app.get("/relationship/:id", ensureLogin, function (req, res) {
+  polls.getAllRelationship().then((data) => {
+    res.render('vote', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
 
 // 패션
+app.get("/fashion/:id", ensureLogin, function (req, res) {
+  polls.getAllFashion().then((data) => {
+    res.render('vote', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
 
 //자유
-
-
-
-
-
-
+app.get("/free/:id", ensureLogin, function (req, res) {
+  polls.getAllFree().then((data) => {
+    res.render('vote', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
 
 
 
