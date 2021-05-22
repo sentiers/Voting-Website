@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+const moment = require('moment');
+const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
 var pollSchema = new Schema({
     "board": Number,
@@ -10,8 +12,8 @@ var pollSchema = new Schema({
     "option2": String,
     "isClosed": Boolean,
     "postDate": {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: date
     }
 });
 

@@ -153,7 +153,6 @@ app.get("/free", ensureLogin, function (req, res) {
 
 
 
-
 /////////////////    로그인, 레지스터    /////////////////////////////
 app.get("/login", function (req, res) {
   res.sendFile(path.join(__dirname, "./views/login.html"));
