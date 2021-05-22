@@ -133,11 +133,26 @@
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">사용자</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
-                            
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    프로필
+                                </a>
+                                <a class="dropdown-item" href="/myvotelist">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    나의 투표목록
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    로그아웃
+                                </a>
+                            </div>
                         </li>
 
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -152,36 +167,52 @@
                         
                     </div>
 
+                    <!-- Border Left Utilities -->
+                    <div class="col-lg-6">
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">공지 목록</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>제목</th>
-                                            <th>날짜</th>
-                                            <th>사용자</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="/announcement/<%= data._id %>"><%= data.title %></a></td>
-                                            <td><%= data.postDate %></td>
-                                            <td><%= data.author %></td>
-                                            
-                                        </tr>
-                                    </tbody>
-                                    <% }) %>
-                                </table>
+                         <div class="card mb-4 py-3 border-left-success">
+                            <div class="card-body">
+                                <b>투표참여 안내</b>
+                                <br>
+                                모든 투표의 선택은 개인의 자유이나, 장난식의 답변 시 
+                                개인의 유사도 결과에 영향을 미칠 수 있으며 책임은 개인의 몫입니다.
                             </div>
                         </div>
+
+                        <div class="card mb-4 py-3 border-left-info">
+                            <div class="card-body">
+                                <b>[필독] 투표게시 규제 안내</b>
+                                <br>
+                                - 연속 글쓰기, 도배 형식의 글로 인한 다른 사용자들의 서비스 이용을 방해하는 행위
+                                <br>
+                                - 과도한 비방/비하/욕설을 쓰는 행위
+                                <br>
+                                위와 같은 행위가 확인 될 경우 해당 사용자에 대한 아이디 영구 규제 조치가 적용될 수 있습니다.
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 py-3 border-left-warning">
+                            <div class="card-body">
+                                <b>깨끗한 '고민 멈춰!' 웹 사이트 만들기 동참 해주세요</b>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 py-3 border-left-danger">
+                            <div class="card-body">
+                                <b>고민 멈춰! 안내</b>
+                                <br>
+                                고민 멈춰!에서 유사도 서비스를 제공 받아 보세요
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 py-3 border-left-dark">
+                            <div class="card-body">
+                                <b>2021년 5월 '고민 멈춰!' 웹사이트 개시</b>
+                            </div>
+                        </div>
+
                     </div>
+                    
 
                 </div>
                 <!-- /.container-fluid -->

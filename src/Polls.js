@@ -90,19 +90,6 @@ module.exports.getAllFree = function () {
 
 // ---------------------------------------------------
 
-// ID?나 제목과 일치하는 게시물하나를 가져와서 데이터를 내보내기
-module.exports.getPollById = function () {
-    return new Promise(function (resolve, reject) {
-        Polls.findOne
-
-
-
-
-
-
-
-    });
-}
 
 
 // ---------------------------------------------------

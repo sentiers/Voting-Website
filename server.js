@@ -117,8 +117,6 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 });
 
 
-
-
 ///////////////         게시판       ////////////////
 app.get("/food", ensureLogin, function (req, res) {
   polls.getAllFood().then((data) => {
