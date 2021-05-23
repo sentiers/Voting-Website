@@ -9,7 +9,9 @@ var pollSchema = new Schema({
     "author": String,
     "body": String,
     "option1": String,
+    "option1Num": { type: Number, default: 0}, 
     "option2": String,
+    "option2Num": { type: Number, default: 0}, 
     "isClosed": Boolean,
     "postDate": {
         type: String,
@@ -92,7 +94,19 @@ module.exports.getAllFree = function () {
 
 // ---------------------------------------------------
 
+module.exports.increOpt1 = function() {
+    return new Promise(function(resolve) {
+        Polls.option1Num++;
+        resolve();
+    }) 
+}
 
+module.exports.increOpt2 = function() {
+    return new Promise(function(resolve) {
+        Polls.option2Num++;
+        resolve();
+    }) 
+}
 
 // ---------------------------------------------------
 
