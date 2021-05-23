@@ -83,7 +83,11 @@ app.post("/create", function (req, res) {
 // 음식
 app.get("/food/:id", ensureLogin, function (req, res) {
   polls.getAllFood().then((data) => {
-    res.render('vote', { datas: data });
+    res.render('vote', { 
+      datas: data,
+      x: polls.increOpt1(),
+      y: polls.increOpt2()
+    });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
@@ -193,7 +197,6 @@ app.get("/logout", function (req, res) {
 
 
 
-
 ///////////////// 프로필보기, 나의투표목록보기    ///////////////////
 
 app.get("/profile", function (req, res) {
@@ -210,7 +213,6 @@ app.get("/myvotelist", function (req, res) {
 
 
 });
-
 
 
 
