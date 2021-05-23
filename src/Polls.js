@@ -9,15 +9,9 @@ var pollSchema = new Schema({
     "author": String,
     "body": String,
     "option1": String,
-<<<<<<< Updated upstream
     "option1Num": { type: Number, default: 0}, 
     "option2": String,
     "option2Num": { type: Number, default: 0}, 
-=======
-    "option1Num": {type: Number, default: 0},
-    "option2": String,
-    "option2Num": {type: Number, default: 0},
->>>>>>> Stashed changes
     "isClosed": Boolean,
     "postDate": {
         type: String,
@@ -100,35 +94,35 @@ module.exports.getAllFree = function () {
 
 // ---------------------------------------------------
 
-<<<<<<< Updated upstream
-module.exports.increOpt1 = function() {
-    return new Promise(function(resolve) {
-        Polls.option1Num++;
-        resolve();
-    }) 
-=======
-module.exports.increOpt1 = function () {
-    return new Promise(function (resolve) {
-        Polls.option1Num++;
-        console.log("됐다능 "+Polls.option1Num);
-        resolve();
-    })
+
+module.exports.increOpt1 = function (pollData) {
+    return new Promise(function (resolve, reject) {
+        pollData.option1Num++;
+        console.log("됐다능 " + pollData.option1Num);
+        pollData.save((err) => {
+            if (err) {
+                console.log (err);
+                reject();
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
-module.exports.increOpt2 = function () {
-    return new Promise(function (resolve) {
-        Polls.option2Num++;
-        console.log("됐다능2 "+Polls.option2Num);
-        resolve();
-    })
->>>>>>> Stashed changes
-}
-
-module.exports.increOpt2 = function() {
-    return new Promise(function(resolve) {
-        Polls.option2Num++;
-        resolve();
-    }) 
+module.exports.increOpt2 = function (pollData) {
+    return new Promise(function (resolve, reject) {
+        pollData.option2Num++;
+        console.log("됐다능2 " + pollData.option2Num);
+        newPoll.save((err) => {
+            if (err) {
+                console.log (err);
+                reject();
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 // ---------------------------------------------------
