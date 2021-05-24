@@ -3,8 +3,6 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
-//var User = require('./User.js');
-
 var pollSchema = new Schema({
     "board": Number,
     "title": String,
@@ -26,10 +24,10 @@ var Polls = mongoose.model('polls', pollSchema);
 
 // ---------------------------------------------------
 //게시물 만드는 함수
-module.exports.createPoll = function (pollData) {
+module.exports.createPoll = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         let newPoll = new Polls(pollData);
-        //newPoll.author = req.body.userName;(이런식으로 쓰기도하던데.. userData.userName으로 하면 되려나..?)
+        newPoll.author = curUser.userName;
         newPoll.save((err) => {
             if (err) {
                 console.log(err);
@@ -171,7 +169,6 @@ module.exports.increOpt2 = function (pollData) {
 }
 
 //------------------------------------------------------------
-
 
 
 // 내 투표 가져오기
