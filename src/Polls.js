@@ -96,21 +96,6 @@ module.exports.getAllFree = function () {
     });
 }
 
-
-// 내 투표 가져오기
-
-// module.exports.getMYFood = function () {
-//     return new Promise(function (resolve, reject) {
-//         Polls.find({author: userName})
-//             .then((data) => {
-//                 resolve(data);
-//             })
-//             .catch((err) => {
-//                 reject("no results returned");
-//             });
-//     });
-}
-
 //------------------------------------------------------------
 
 // id에 따라 게시물 가져오고 조회수 올리는 함수
@@ -189,3 +174,16 @@ module.exports.increOpt2 = function (pollData) {
 
 
 
+// 내 투표 가져오기
+
+// module.exports.getMYFood = function () {
+//     return new Promise(function (resolve, reject) {
+//         Polls.find({author: userName})
+//             .then((data) => {
+//                 resolve(data);
+//             })
+//             .catch((err) => {
+//                 reject("no results returned");
+//             });
+//     });
+//}
