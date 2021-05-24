@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    
+
     <title>고민 멈춰! - food</title>
 
     <!-- Custom fonts for this template -->
@@ -160,14 +160,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-              
+
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">내 투표목록</h1>
-                       
-                    </div>
 
+                    </div>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -180,25 +179,39 @@
                                     <thead>
                                         <tr>
                                             <th>제목</th>
-                                            <th>날짜</th>
+                                            <th>조회수</th>
                                             <th>사용자</th>
+                                            <th>날짜</th>
                                             <th>마감여부</th>
                                         </tr>
                                     </thead>
                                     <% datas.forEach(function(data) { %>
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="/food/<%= data._id %>"><%= data.title %></a></td>
-                                            <td><%= data.postDate %></td>
-                                            <td><%= data.author %></td>
-                                            <td><%= data.isClosed %></td>
-                                        </tr>
-                                    </tbody>
-                                    <% }) %>
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="/myvotelist/<%= data._id %>">
+                                                        <%= data.title %>
+                                                    </a></td>
+                                                <td>
+                                                    <%= data.views %>
+                                                </td>
+                                                <td>
+                                                    <%= data.author %>
+                                                </td>
+                                                <td>
+                                                    <%= data.postDate %>
+                                                </td>
+                                                <td>
+                                                    <%= data.isClosed %>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <% }) %>
                                 </table>
                             </div>
                         </div>
                     </div>
+
+
 
                 </div>
                 <!-- /.container-fluid -->

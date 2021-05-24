@@ -218,10 +218,6 @@ app.get("/logout", function (req, res) {
 });
 
 
-
-
-
-
 ///////////////// 프로필보기, 나의투표목록보기    ///////////////////
 
 app.get("/profile", function (req, res) {
@@ -229,17 +225,13 @@ app.get("/profile", function (req, res) {
 });
 
 app.get("/myvotelist", function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/myvotelist.html"));
-
-
-  //자신이 투표했던 것들만 뜨게해야함
-
-
-
-
+  polls.getPollsByUser(req.session.user).then((data) => {
+    console.log(data);
+    res.render('myvotelist', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
 });
-
-
 
 
 ///////////////////////////////////////////////////
@@ -250,31 +242,3 @@ app.use(function (req, res) {
 app.listen(HTTP_PORT, function () {
   console.log("app listening on: " + HTTP_PORT)
 });
-
-
-
-
-
-// // Index
-// app.get('/create', function(req, res){
-//   Post.find({})
-//     .populate('author') // 1
-//     .exec(function(err, posts){
-//       if(err) return res.json(err);
-//       res.render('posts/index', {posts:posts});
-//     });
-// });
-
-// // create
-// app.post('/create', function(req, res){
-//   req.body.author = req.user._id; // 2
-//   Post.create(req.body, function(err, post){
-//     if(err){
-//       req.flash('post', req.body);
-//       req.flash('errors', util.parseError(err));
-//       return res.redirect('/posts/new');
-//     }
-//     res.redirect('/posts');
-//   });
-// });
-
