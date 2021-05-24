@@ -7,6 +7,7 @@ const clientSessions = require("client-sessions");
 //----------------------------------------------------
 const dataServiceAuth = require("./data-auth.js");
 const polls = require("./src/Polls.js");
+const { request } = require("http");
 //----------------------------------------------------
 const HTTP_PORT = process.env.PORT || 8080;
 //----------------------------------------------------
@@ -80,45 +81,62 @@ app.post("/create", function (req, res) {
 
 ///////////////// 투표 참여, 결과 관련 //////////////////////////
 
-// 음식
+
+// 옵션 increment --------------------
+app.get("/update1/:id", ensureLogin, function (req, res) {
+  polls.increOpt1(req.params.id).then((data) => {
+    res.render('vote', { datas: data});
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
+
+app.get("/update2/:id", ensureLogin, function (req, res) {
+  polls.increOpt2(req.params.id).then((data) => {
+    res.render('vote', { datas: data});
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
+
+// 음식---------------------------------------------------------
 app.get("/food/:id", ensureLogin, function (req, res) {
-  polls.getAllFood().then((data) => {
-    res.render('vote', { 
-      datas: data,
-      x: polls.increOpt1(),
-      y: polls.increOpt2()
-    });
+  polls.getPollById(req.params.id).then((data) => {
+    res.render('vote', { datas: data});
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
 
-// 연애
+// 연애---------------------------------------------------------
 app.get("/relationship/:id", ensureLogin, function (req, res) {
-  polls.getAllRelationship().then((data) => {
+  polls.getPollById(req.params.id).then((data) => {
     res.render('vote', { datas: data });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
 
-// 패션
+// 패션---------------------------------------------------------
 app.get("/fashion/:id", ensureLogin, function (req, res) {
-  polls.getAllFashion().then((data) => {
+  polls.getPollById(req.params.id).then((data) => {
     res.render('vote', { datas: data });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
 
-//자유
+//자유---------------------------------------------------------
 app.get("/free/:id", ensureLogin, function (req, res) {
-  polls.getAllFree().then((data) => {
+  polls.getPollById(req.params.id).then((data) => {
     res.render('vote', { datas: data });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
+
+
+// ----------------------------------------------------------------
 
 
 ///////////////         게시판       ////////////////
@@ -197,6 +215,7 @@ app.get("/logout", function (req, res) {
 
 
 
+
 ///////////////// 프로필보기, 나의투표목록보기    ///////////////////
 
 app.get("/profile", function (req, res) {
@@ -213,6 +232,7 @@ app.get("/myvotelist", function (req, res) {
 
 
 });
+
 
 
 

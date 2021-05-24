@@ -152,87 +152,97 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <div class="article-board m-tcol-c">
-                    <% datas.forEach(function(data) { %>
-                        <% var urlId = url.split('/') %>
-                        <% if (data._id == urlId[2]) { %>
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h2 class="m-0 font-weight-bold text-primary"><%= data.title %></h6>
+                            <h2 class="m-0 font-weight-bold text-primary">
+                                <%= datas.title %>
+                                    </h6>
                         </div>
                         <div class="card-body">
-                            <p style="text-align:center"><%= data.body %></p>
+                            <p style="text-align:center">
+                                <%= datas.body %>
+                            </p>
 
+
+                           
                             <div class="text-center">
                                 <!-- Button -->
                                 <div class="text-center">
                                     <br>
-                                    <a href="#" class="btn btn-success btn-icon-split">
+                                    <a href="/update1/<%= datas._id %>" class="btn btn-success btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text"><%= data.option1 %> <%= data.option1Num%></span>
-                                        
+                                        <span class="text">
+                                            <%= datas.option1 %>
+                                                <%= datas.option1Num%>
+                                        </span>
+
                                     </a>
+
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="btn btn-success btn-icon-split">
+                                    <a href="/update2/<%= datas._id %>" class="btn btn-success btn-icon-split" >
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text"><%= data.option2 %> <%= data.option2Num%></span>
+                                        <span class="text">
+                                            <%= datas.option2 %>
+                                                <%= datas.option2Num%>
+                                        </span>
                                     </a>
                                     <br>
+                                    <p style="text-align:center">
+                                        <%= datas.views %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <% } %>
-                    <% }) %>
+
                 </div>
-                
                 <div class="post_btns">
 
-                            <div class="fr">
-                 
-                            </div>
-               
-            </div>
-            <!-- End of Main Content -->
+                    <div class="fr">
 
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; 고민멈춰! 2021</span>
                     </div>
+
                 </div>
-            </footer>
-            <!-- End of Footer -->
+                <!-- End of Main Content -->
+
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; 고민멈춰! 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/js/sb-admin-2.min.js"></script>
 
 </body>
 
