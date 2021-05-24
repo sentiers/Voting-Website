@@ -152,98 +152,118 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                <div class="article-board m-tcol-c">
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">투표 참여</h1>
+                    </div>
+
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
+
                         <div class="card-header py-3">
-                            <h2 class="m-0 font-weight-bold text-primary">
+                            <h2 class="h4 mb-0 font-weight-bold text-primary">
                                 <%= datas.title %>
-                                    </h6>
+                            </h2>
                         </div>
+
                         <div class="card-body">
-                            <p style="text-align:center">
-                                <%= datas.body %>
+
+                            <p style="text-align:left">
+                                작성자: author
+                                <br>
+                                조회수: <%= datas.views %>
                             </p>
 
+                            <p style="text-align:center">
+                                <%= datas.body %>
+                            </p>                            
 
-                           
-                            <div class="text-center">
+                            <div class="text-center">                            
                                 <!-- Button -->
-                                <div class="text-center">
-                                    <br>
-                                    <a href="/update1/<%= datas._id %>" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">
-                                            <%= datas.option1 %>
-                                                <%= datas.option1Num%>
-                                        </span>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="text-center card mb-4 py-3 border-bottom-success">
+                                            <div class="card-body">
+                                                <%= datas.option1 %>
+                                                    <br><br>
+                                                    <a href="/update1/<%= datas._id %>"
+                                                        class="btn btn-success btn-circle">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                    <br>
+                                                    임시 결과: <%= datas.option1Num %>
 
-                                    </a>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="/update2/<%= datas._id %>" class="btn btn-success btn-icon-split" >
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">
-                                            <%= datas.option2 %>
-                                                <%= datas.option2Num%>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <p style="text-align:center">
-                                        <%= datas.views %>
-                                    </p>
+                                    <div class="col-lg-6">
+                                        <div class="card mb-4 py-3 border-bottom-success">
+                                            <div class="card-body">
+                                                <%= datas.option2 %>
+                                                    <br><br>
+                                                    <a href="/update2/<%= datas._id %>"
+                                                        class="btn btn-success btn-circle">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                    <br>
+                                                    임시 결과: <%= datas.option2Num %>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <a href="/result">결과 확인하러가기 &rarr;</a>
                             </div>
+                            
                         </div>
                     </div>
 
-                </div>
-                <div class="post_btns">
-
-                    <div class="fr">
-
-                    </div>
 
                 </div>
                 <!-- End of Main Content -->
-
-
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; 고민멈춰! 2021</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
-
             </div>
-            <!-- End of Content Wrapper -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; 고민멈춰! 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="/js/sb-admin-2.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script src="/chart/pieChart.js"></script>
+    <script src="/chart/barChart.js"></script>
 </body>
 
 </html>
