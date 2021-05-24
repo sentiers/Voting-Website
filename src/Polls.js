@@ -11,25 +11,28 @@ var pollSchema = new Schema({
     "author": String,
     "body": String,
     "option1": String,
+    "option1Num": { type: Number, default: 0 },
     "option2": String,
+    "option2Num": { type: Number, default: 0 },
     "isClosed": Boolean,
     "postDate": {
         type: String,
         default: date
-    }
+    },
+    "views": { type: Number, default: 0 }
 });
 
 var Polls = mongoose.model('polls', pollSchema);
 
 // ---------------------------------------------------
 //게시물 만드는 함수
-module.exports.createPoll = function (pollData) { 
+module.exports.createPoll = function (pollData) {
     return new Promise(function (resolve, reject) {
         let newPoll = new Polls(pollData);
         //newPoll.author = req.body.userName;(이런식으로 쓰기도하던데.. userData.userName으로 하면 되려나..?)
         newPoll.save((err) => {
             if (err) {
-                console.log (err);
+                console.log(err);
                 reject();
             } else {
                 resolve();
@@ -44,7 +47,7 @@ module.exports.createPoll = function (pollData) {
 // 모든 음식관련 게시물 가져오는함수
 module.exports.getAllFood = function () {
     return new Promise(function (resolve, reject) {
-        Polls.find({ board: 1})
+        Polls.find({ board: 1 })
             .then((data) => {
                 resolve(data);
             })
@@ -57,7 +60,7 @@ module.exports.getAllFood = function () {
 // 모든 연애관련 게시물 가져오는함수
 module.exports.getAllRelationship = function () {
     return new Promise(function (resolve, reject) {
-        Polls.find({ board: 2})
+        Polls.find({ board: 2 })
             .then((data) => {
                 resolve(data);
             })
@@ -70,7 +73,7 @@ module.exports.getAllRelationship = function () {
 // 모든 패션관련 게시물 가져오는함수
 module.exports.getAllFashion = function () {
     return new Promise(function (resolve, reject) {
-        Polls.find({ board: 3})
+        Polls.find({ board: 3 })
             .then((data) => {
                 resolve(data);
             })
@@ -83,7 +86,7 @@ module.exports.getAllFashion = function () {
 // 모든 자유관련 게시물 가져오는함수
 module.exports.getAllFree = function () {
     return new Promise(function (resolve, reject) {
-        Polls.find({ board: 4})
+        Polls.find({ board: 4 })
             .then((data) => {
                 resolve(data);
             })
@@ -92,6 +95,7 @@ module.exports.getAllFree = function () {
             });
     });
 }
+
 
 // 내 투표 가져오기
 
@@ -107,5 +111,81 @@ module.exports.getAllFree = function () {
 //     });
 }
 
-// ---------------------------------------------------
+//------------------------------------------------------------
+
+// id에 따라 게시물 가져오고 조회수 올리는 함수
+module.exports.getPollById = function (pollData) {
+    return new Promise(function (resolve, reject) {
+        Polls.findOne({ _id: pollData })
+            .then((data) => {
+                var cur = data.views;
+                cur++;
+                Polls.updateOne(
+                    { _id: pollData },
+                    { $set: { views: cur } }
+                ).exec()
+                    .then(() => {
+                        Polls.findOne({ _id: pollData }).then((updatedData) => {
+                            resolve(updatedData);
+                        })
+                    })
+            })
+            .catch((err) => {
+                reject("no results returned");
+            });
+    });
+}
+
+//------------------------------------------------------------
+
+// 옵션1 클릭할때마다 올라가고 데이터저장
+module.exports.increOpt1 = function (pollData) {
+    return new Promise(function (resolve, reject) {
+        Polls.findOne({ _id: pollData })
+            .then((data) => {
+                var cur = data.option1Num;
+                cur++;
+                Polls.updateOne(
+                    { _id: pollData },
+                    { $set: { option1Num: cur } }
+                ).exec()
+                    .then(() => {
+                        Polls.findOne({ _id: pollData }).then((updatedData) => {
+                            resolve(updatedData);
+                        })
+                    })
+            })
+            .catch((err) => {
+                reject("no results returned");
+            });
+    });
+}
+
+
+// 옵션2 클릭할때마다 올라가고 데이터저장
+module.exports.increOpt2 = function (pollData) {
+    return new Promise(function (resolve, reject) {
+        Polls.findOne({ _id: pollData })
+            .then((data) => {
+                var cur = data.option2Num;
+                cur++;
+                Polls.updateOne(
+                    { _id: pollData },
+                    { $set: { option2Num: cur } }
+                ).exec()
+                    .then(() => {
+                        Polls.findOne({ _id: pollData }).then((updatedData) => {
+                            resolve(updatedData);
+                        })
+                    })
+            })
+            .catch((err) => {
+                reject("no results returned");
+            });
+    });
+}
+
+//------------------------------------------------------------
+
+
 
