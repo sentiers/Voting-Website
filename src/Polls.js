@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
+//var User = require('./User.js');
+
 var pollSchema = new Schema({
     "board": Number,
     "title": String,
@@ -27,6 +29,7 @@ var Polls = mongoose.model('polls', pollSchema);
 module.exports.createPoll = function (pollData) {
     return new Promise(function (resolve, reject) {
         let newPoll = new Polls(pollData);
+        //newPoll.author = req.body.userName;(이런식으로 쓰기도하던데.. userData.userName으로 하면 되려나..?)
         newPoll.save((err) => {
             if (err) {
                 console.log(err);
@@ -91,6 +94,21 @@ module.exports.getAllFree = function () {
                 reject("no results returned");
             });
     });
+}
+
+
+// 내 투표 가져오기
+
+// module.exports.getMYFood = function () {
+//     return new Promise(function (resolve, reject) {
+//         Polls.find({author: userName})
+//             .then((data) => {
+//                 resolve(data);
+//             })
+//             .catch((err) => {
+//                 reject("no results returned");
+//             });
+//     });
 }
 
 //------------------------------------------------------------
@@ -168,5 +186,6 @@ module.exports.increOpt2 = function (pollData) {
 }
 
 //------------------------------------------------------------
+
 
 

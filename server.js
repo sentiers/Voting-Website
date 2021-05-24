@@ -251,3 +251,27 @@ app.use(function (req, res) {
 app.listen(HTTP_PORT, function () {
   console.log("app listening on: " + HTTP_PORT)
 });
+
+
+// // Index
+// app.get('/create', function(req, res){
+//   Post.find({})
+//     .populate('author') // 1
+//     .exec(function(err, posts){
+//       if(err) return res.json(err);
+//       res.render('posts/index', {posts:posts});
+//     });
+// });
+
+// // create
+// app.post('/create', function(req, res){
+//   req.body.author = req.user._id; // 2
+//   Post.create(req.body, function(err, post){
+//     if(err){
+//       req.flash('post', req.body);
+//       req.flash('errors', util.parseError(err));
+//       return res.redirect('/posts/new');
+//     }
+//     res.redirect('/posts');
+//   });
+// });
