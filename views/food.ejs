@@ -182,8 +182,9 @@
                                     <thead>
                                         <tr>
                                             <th>제목</th>
-                                            <th>날짜</th>
+                                            <th>조회수</th>
                                             <th>사용자</th>
+                                            <th>날짜</th>            
                                             <th>마감여부</th>
                                         </tr>
                                     </thead>
@@ -191,8 +192,9 @@
                                     <tbody>   
                                         <tr>
                                             <td><a href="/food/<%= data._id %>"><%= data.title %></a></td>
-                                            <td><%= data.postDate %></td>
+                                            <td><%= data.views %></td>
                                             <td><%= data.author %></td>
+                                            <td><%= data.postDate %></td>                                            
                                             <td><%= data.isClosed %></td>
                                         </tr>
                                     </tbody>
