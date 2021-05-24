@@ -69,7 +69,7 @@ app.get("/create", ensureLogin, function (req, res) {
 });
 
 app.post("/create", function (req, res) {
-  polls.createPoll(req.body)
+  polls.createPoll(req.body, req.session.user)
     .then(() => {
       res.redirect("/main");
     }).catch((err) => {
@@ -134,7 +134,6 @@ app.get("/free/:id", ensureLogin, function (req, res) {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
-
 
 
 // 결과
@@ -253,6 +252,9 @@ app.listen(HTTP_PORT, function () {
 });
 
 
+
+
+
 // // Index
 // app.get('/create', function(req, res){
 //   Post.find({})
@@ -275,3 +277,4 @@ app.listen(HTTP_PORT, function () {
 //     res.redirect('/posts');
 //   });
 // });
+
