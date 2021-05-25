@@ -173,10 +173,8 @@ module.exports.increOpt2 = function (pollData) {
 // 내 투표 가져오기
 module.exports.getPollsByUser = function (curUser) {
     return new Promise(function (resolve, reject) {
-        console.log(curUser);
         Polls.find({ author: curUser.userName })
             .then((data) => {
-                console.log(data);
                 resolve(data);
             })
             .catch((err) => {
