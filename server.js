@@ -233,6 +233,15 @@ app.get("/myvotelist", function (req, res) {
   });
 });
 
+// 나의 투표에서 게시글로 넘어가기
+app.get("/myvotelist/:id", ensureLogin, function (req, res) {
+  polls.getPollById(req.params.id).then((data) => {
+    res.render('vote', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
+});
+
 
 ///////////////////////////////////////////////////
 app.use(function (req, res) {
