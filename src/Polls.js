@@ -17,7 +17,8 @@ var pollSchema = new Schema({
         type: String,
         default: date
     },
-    "views": { type: Number, default: 0 }
+    "views": { type: Number, default: 0 },
+    "hasVoted": String
 });
 
 var Polls = mongoose.model('polls', pollSchema);
@@ -122,20 +123,29 @@ module.exports.getPollById = function (pollData) {
 //------------------------------------------------------------
 
 // 옵션1 클릭할때마다 올라가고 데이터저장
-module.exports.increOpt1 = function (pollData) {
+module.exports.increOpt1 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
+       // curUser.voteRecord = {_id: pollData}
             .then((data) => {
                 var cur = data.option1Num;
                 cur++;
                 Polls.updateOne(
                     { _id: pollData },
                     { $set: { option1Num: cur } }
-                ).exec()
-                    .then(() => {
-                        Polls.findOne({ _id: pollData }).then((updatedData) => {
-                            resolve(updatedData);
-                        })
+                )
+                .then(() => {
+                    Polls.findOne({ _id: pollData }).then((updatedData) => {
+                          resolve(updatedData);
+                      })
+                    })
+                Polls.updateOne(
+                    { _id : pollData },
+                    { $set: { hasVoted: curUser.userName}})
+                .then(() => {
+                    Polls.findOne({ _id: pollData }).then((updatedData) => {
+                          resolve(updatedData);
+                      })
                     })
             })
             .catch((err) => {
@@ -146,7 +156,7 @@ module.exports.increOpt1 = function (pollData) {
 
 
 // 옵션2 클릭할때마다 올라가고 데이터저장
-module.exports.increOpt2 = function (pollData) {
+module.exports.increOpt2 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
@@ -154,12 +164,20 @@ module.exports.increOpt2 = function (pollData) {
                 cur++;
                 Polls.updateOne(
                     { _id: pollData },
-                    { $set: { option2Num: cur } }
-                ).exec()
-                    .then(() => {
-                        Polls.findOne({ _id: pollData }).then((updatedData) => {
-                            resolve(updatedData);
-                        })
+                    { $set: { option2Num: cur }}
+                )
+                .then(() => {
+                    Polls.findOne({ _id: pollData }).then((updatedData) => {
+                          resolve(updatedData);
+                      })
+                    })
+                Polls.updateOne(
+                    { _id : pollData },
+                    { $set: { hasVoted: curUser.userName}})
+                .then(() => {
+                    Polls.findOne({ _id: pollData }).then((updatedData) => {
+                          resolve(updatedData);
+                      })
                     })
             })
             .catch((err) => {
