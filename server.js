@@ -221,7 +221,7 @@ app.get("/logout", function (req, res) {
 ///////////////// 프로필보기, 나의투표목록보기    ///////////////////
 
 app.get("/profile", function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/profile.html"));
+  res.render('profile', { datas: req.session.user });
 });
 
 app.get("/myvotelist", function (req, res) {

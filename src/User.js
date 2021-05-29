@@ -9,7 +9,7 @@ var userSchema = new Schema({
   "password": String,
   "age": Number,
   "gender": Number,
-  "voteRecord" : [{String}]
+  "voteRecord" : [String]
 });
 
 var User = mongoose.model("users", userSchema);

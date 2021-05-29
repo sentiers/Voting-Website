@@ -160,15 +160,36 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">나의 프로필</h1>
 
+                    <div class="col-lg-6 mb-4">
+                        <div class="card bg-light text-black shadow">
+                            <div class="card-body">
+                                사용자 이름: <%= datas.userName %>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-6 mb-4">
+                        <div class="card bg-light text-black shadow">
+                            <div class="card-body">
+                                성별: <%= datas.gender %>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-6 mb-4">
+                        <div class="card bg-light text-black shadow">
+                            <div class="card-body">
+                                나이대:
+                                <% if(datas.age==10) {%> 10대 <% } %>
+                                        <% if(datas.age==20) {%> 20대 초반 <%}%>
+                                                <% if(datas.age==25) {%> 20대 후반 <%}%>
+                                                        <% if(datas.age==30) {%> 30대 초반 <%}%>
+                                                                <% if(datas.age==35) {%> 30대 후반 <%}%>
+                                                                        <% if(datas.age==40) {%> 40대 이상 <%}%>
 
-
-
-                    
-
-
-
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -196,7 +217,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
