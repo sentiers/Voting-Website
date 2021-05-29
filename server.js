@@ -190,7 +190,8 @@ app.post("/login", function (req, res) {
   dataServiceAuth.checkUser(req.body).then((user) => {
     req.session.user = {
       userName: user.userName,
-      loginHistory: user.loginHistory
+      gender: user.gender,
+      age: user.age
     }
     res.redirect("/main");
   }).catch((err) => {

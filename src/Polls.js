@@ -4,23 +4,44 @@ const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
 mongoose.set('useFindAndModify', false);
+var User = require('../src/User.js');
 
 var pollSchema = new Schema({
     "board": Number,
     "title": String,
     "author": String,
     "body": String,
-    "option1": String,
-    "option1Num": { type: Number, default: 0 },
-    "option2": String,
-    "option2Num": { type: Number, default: 0 },
     "isClosed": Boolean,
+    "views": { type: Number, default: 0 },
+    "hasVoted": [String],
     "postDate": {
         type: String,
         default: date
     },
-    "views": { type: Number, default: 0 },
-    "hasVoted": [String]
+
+    "option1": String,
+    "option1Num": { type: Number, default: 0 },
+    "option1Male": { type: Number, default: 0 },
+    "option1Female": { type: Number, default: 0 },
+    "option1_10": { type: Number, default: 0 },
+    "option1_20": { type: Number, default: 0 },
+    "option1_25": { type: Number, default: 0 },
+    "option1_30": { type: Number, default: 0 },
+    "option1_35": { type: Number, default: 0 },
+    "option1_40": { type: Number, default: 0 },
+
+    "option2": String,
+    "option2Num": { type: Number, default: 0 },
+    "option2Male": { type: Number, default: 0 },
+    "option2Female": { type: Number, default: 0 },
+    "option2_10": { type: Number, default: 0 },
+    "option2_20": { type: Number, default: 0 },
+    "option2_25": { type: Number, default: 0 },
+    "option2_30": { type: Number, default: 0 },
+    "option2_35": { type: Number, default: 0 },
+    "option2_40": { type: Number, default: 0 },
+
+    "totalCount": { type: Number, default: 0 }
 });
 
 var Polls = mongoose.model('polls', pollSchema);
@@ -137,18 +158,92 @@ module.exports.increOpt1 = function (pollData, curUser) {
                     }
                 }
                 if (check == false) {
-                    var cur = data.option1Num;
-                    cur++;
+                    var num = data.option1Num;
+                    num++;
+                    var total = num + data.option2Num;
                     Polls.updateOne(
                         { _id: pollData },
-                        { $set: { option1Num: cur } }
+                        { $set: { option1Num: num } }
                     ).then(() => {
-                        Polls.findOneAndUpdate(
+                        Polls.updateOne(
                             { _id: pollData },
-                            { $push: { hasVoted: curUser.userName } }
+                            { $set: { totalCount: total } }
                         ).then(() => {
-                            Polls.findOne({ _id: pollData }).then((updatedData) => {
-                                resolve(updatedData);
+                            Polls.findOneAndUpdate(
+                                { _id: pollData },
+                                { $push: { hasVoted: curUser.userName } }
+                            ).then(() => {
+                                Polls.findOne({ _id: pollData }).then((data_g) => {
+
+                                    if (curUser.gender == 1) {
+                                        var cur = data_g.option1Male;
+                                        cur++;
+                                        console.log(cur);
+                                        Polls.findOneAndUpdate(
+                                            { _id: pollData },
+                                            { $set: { option1Male: cur } }
+                                        ).exec()
+                                    } else if (curUser.gender == 2) {
+                                        var cur = data_g.option1Female;
+                                        cur++;
+                                        Polls.findOneAndUpdate(
+                                            { _id: pollData },
+                                            { $set: { option1Female: cur } }
+                                        ).exec()
+                                    }
+
+                                }).then(() => {
+                                    Polls.findOne({ _id: pollData }).then((data_a) => {
+                                        if (curUser.age == 10) {
+                                            var cur = data_a.option1_10;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_10: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 20) {
+                                            var cur = data_a.option1_20;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_20: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 25) {
+                                            var cur = data_a.option1_25;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_25: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 30) {
+                                            var cur = data_a.option1_30;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_30: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 35) {
+                                            var cur = data_a.option1_35;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_35: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 40) {
+                                            var cur = data_a.option1_40;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option1_40: cur } }
+                                            ).exec()
+                                        }
+                                    }).then(() => {
+                                        Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            console.log(updatedData);
+                                            resolve(updatedData);
+                                        })
+                                    })
+                                })
                             })
                         })
                     })
@@ -179,18 +274,92 @@ module.exports.increOpt2 = function (pollData, curUser) {
                     }
                 }
                 if (check == false) {
-                    var cur = data.option2Num;
-                    cur++;
+                    var num = data.option2Num;
+                    num++;
+                    var total = num + data.option1Num;
                     Polls.updateOne(
                         { _id: pollData },
-                        { $set: { option2Num: cur } }
+                        { $set: { option2Num: num } }
                     ).then(() => {
-                        Polls.findOneAndUpdate(
+                        Polls.updateOne(
                             { _id: pollData },
-                            { $push: { hasVoted: curUser.userName } }
+                            { $set: { totalCount: total } }
                         ).then(() => {
-                            Polls.findOne({ _id: pollData }).then((updatedData) => {
-                                resolve(updatedData);
+                            Polls.findOneAndUpdate(
+                                { _id: pollData },
+                                { $push: { hasVoted: curUser.userName } }
+                            ).then(() => {
+                                Polls.findOne({ _id: pollData }).then((data_g) => {
+
+                                    if (curUser.gender == 1) {
+                                        var cur = data_g.option2Male;
+                                        cur++;
+                                        console.log(cur);
+                                        Polls.findOneAndUpdate(
+                                            { _id: pollData },
+                                            { $set: { option2Male: cur } }
+                                        ).exec()
+                                    } else if (curUser.gender == 2) {
+                                        var cur = data_g.option2Female;
+                                        cur++;
+                                        Polls.findOneAndUpdate(
+                                            { _id: pollData },
+                                            { $set: { option2Female: cur } }
+                                        ).exec()
+                                    }
+
+                                }).then(() => {
+                                    Polls.findOne({ _id: pollData }).then((data_a) => {
+                                        if (curUser.age == 10) {
+                                            var cur = data_a.option2_10;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_10: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 20) {
+                                            var cur = data_a.option2_20;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_20: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 25) {
+                                            var cur = data_a.option2_25;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_25: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 30) {
+                                            var cur = data_a.option2_30;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_30: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 35) {
+                                            var cur = data_a.option2_35;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_35: cur } }
+                                            ).exec()
+                                        } else if (curUser.age == 40) {
+                                            var cur = data_a.option2_40;
+                                            cur++;
+                                            Polls.findOneAndUpdate(
+                                                { _id: pollData },
+                                                { $set: { option2_40: cur } }
+                                            ).exec()
+                                        }
+                                    }).then(() => {
+                                        Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            console.log(updatedData);
+                                            resolve(updatedData);
+                                        })
+                                    })
+                                })
                             })
                         })
                     })
