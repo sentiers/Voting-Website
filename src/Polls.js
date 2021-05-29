@@ -215,26 +215,27 @@ module.exports.getPollsByUser = function (curUser) {
     });
 }
 
-//이미 투표했는지
-// module.exports.ifVoted = function (curUser) {
-//     var check = false;
-//     for( var i = 0; i < Polls.hasVoted.lenght; i++ ){
-//         if(Polls.hasVoted[i] == curUser.userName){
-//             check = true;
-//             break;
-//         }
-//     }
-//     return check;
-// }
+// 여기말고 위에에
+// //이미 투표했는지
+// // module.exports.ifVoted = function (curUser) {
+// //     var check = false;
+// //     for( var i = 0; i < Polls.hasVoted.lenght; i++ ){
+// //         if(Polls.hasVoted[i] == curUser.userName){
+// //             check = true;
+// //             break;
+// //         }
+// //     }
+// //     return check;
+// // }
 
-// ifVoted = function(curUser){
-//     var check = false;
-//     for(var i = 0; i < pollData.hasVoted.length; i++){
-//         if(pollData.hasVoted[i] == curUser.userName){
-//             check = true;
-//             break;
-//         }
-//     }
+// // ifVoted = function(curUser){
+// //     var check = false;
+// //     for(var i = 0; i < pollData.hasVoted.length; i++){
+// //         if(pollData.hasVoted[i] == curUser.userName){
+// //             check = true;
+// //             break;
+// //         }
+// //     }
 
-//     return check;
-// }
+// //     return check;
+// // }
