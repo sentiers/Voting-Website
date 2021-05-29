@@ -18,7 +18,7 @@ var pollSchema = new Schema({
         default: date
     },
     "views": { type: Number, default: 0 },
-    "hasVoted": String
+    "hasVoted": [String]
 });
 
 var Polls = mongoose.model('polls', pollSchema);
@@ -126,7 +126,6 @@ module.exports.getPollById = function (pollData) {
 module.exports.increOpt1 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
-       // curUser.voteRecord = {_id: pollData}
             .then((data) => {
                 var cur = data.option1Num;
                 cur++;
@@ -160,25 +159,40 @@ module.exports.increOpt2 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
-                var cur = data.option2Num;
-                cur++;
-                Polls.updateOne(
-                    { _id: pollData },
-                    { $set: { option2Num: cur }}
-                )
-                .then(() => {
+                var check = false;
+                for( i=0 ; i < data.hasVoted.length; i++){
+                    if(data.hasVoted[i] == curUser.usrName){
+                        check = true
+                        console.log(check)
+                        break;
+                    }
+                    console.log(data.hasVoted.length)
+                }
+
+                if(check == false){
+                    var cur = data.option2Num;
+                    cur++;
+                    Polls.updateOne(
+                      { _id: pollData },
+                      { $set: { option2Num: cur }}
+                  )
+                  .then(() => {
                     Polls.findOne({ _id: pollData }).then((updatedData) => {
+                          resolve(updatedData);
+                          })
+                     })
+                     Polls.updateOne(
+                      { _id : pollData },
+                      { $set: { hasVoted: curUser.userName}})
+                    .then(() => {
+                     Polls.findOne({ _id: pollData }).then((updatedData) => {
                           resolve(updatedData);
                       })
                     })
-                Polls.updateOne(
-                    { _id : pollData },
-                    { $set: { hasVoted: curUser.userName}})
-                .then(() => {
-                    Polls.findOne({ _id: pollData }).then((updatedData) => {
-                          resolve(updatedData);
-                      })
-                    })
+                }
+                else{
+                     console.log(err);
+                }
             })
             .catch((err) => {
                 reject("no results returned");
@@ -200,3 +214,27 @@ module.exports.getPollsByUser = function (curUser) {
             });
     });
 }
+
+//이미 투표했는지
+// module.exports.ifVoted = function (curUser) {
+//     var check = false;
+//     for( var i = 0; i < Polls.hasVoted.lenght; i++ ){
+//         if(Polls.hasVoted[i] == curUser.userName){
+//             check = true;
+//             break;
+//         }
+//     }
+//     return check;
+// }
+
+// ifVoted = function(curUser){
+//     var check = false;
+//     for(var i = 0; i < pollData.hasVoted.length; i++){
+//         if(pollData.hasVoted[i] == curUser.userName){
+//             check = true;
+//             break;
+//         }
+//     }
+
+//     return check;
+// }
