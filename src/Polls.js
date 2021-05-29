@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
-mongoose.set('useFindAndModify', false );
+mongoose.set('useFindAndModify', false);
 
 var pollSchema = new Schema({
     "board": Number,
@@ -130,42 +130,33 @@ module.exports.increOpt1 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for( i=0 ; i < data.hasVoted.length; i++){
-                    if(data.hasVoted[i] == curUser.userName){
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
                         check = true
-                        console.log(check)
                         break;
                     }
                 }
-
-                if(check == false){
-                var cur = data.option1Num;
-                cur++;
-                Polls.updateOne(
-                    { _id: pollData },
-                    { $set: { option1Num: cur } }
-                )
-                .then(() => {
-                    Polls.findOne({ _id: pollData }).then((updatedData) => {
-                          resolve(updatedData);
-                      })
-                    })
-
-                Polls.findOneAndUpdate(
-                    { _id: pollData },
-                    { $push: { hasVoted: curUser.userName }}
-                )
-                .then(() => {
-                    Polls.findOne({ _id: pollData }).then((updatedData) => {
-                          resolve(updatedData);
-                      })
+                if (check == false) {
+                    var cur = data.option1Num;
+                    cur++;
+                    Polls.updateOne(
+                        { _id: pollData },
+                        { $set: { option1Num: cur } }
+                    ).then(() => {
+                        Polls.findOneAndUpdate(
+                            { _id: pollData },
+                            { $push: { hasVoted: curUser.userName } }
+                        ).then(() => {
+                            Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                resolve(updatedData);
+                            })
+                        })
                     })
                 }
-                else{
-                    console.log("You already Voted");                    
+                else {
+                    reject("you already voted");
                 }
             })
-            
             .catch((err) => {
                 reject("no results returned");
             });
@@ -179,39 +170,31 @@ module.exports.increOpt2 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for( i=0 ; i < data.hasVoted.length; i++){
-                    if(data.hasVoted[i] == curUser.userName){
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
                         check = true
-                        console.log(check)
                         break;
                     }
                 }
-
-                if(check == false){
+                if (check == false) {
                     var cur = data.option2Num;
                     cur++;
                     Polls.updateOne(
-                      { _id: pollData },
-                      { $set: { option2Num: cur }}
-                  )
-                  .then(() => {
-                    Polls.findOne({ _id: pollData }).then((updatedData) => {
-                          resolve(updatedData);
-                          })
-                     })
-
-                     Polls.findOneAndUpdate(
                         { _id: pollData },
-                        { $push: { hasVoted: curUser.userName }}
-                    )
-                    .then(() => {
-                     Polls.findOne({ _id: pollData }).then((updatedData) => {
-                          resolve(updatedData);
-                      })
+                        { $set: { option2Num: cur } }
+                    ).then(() => {
+                        Polls.findOneAndUpdate(
+                            { _id: pollData },
+                            { $push: { hasVoted: curUser.userName } }
+                        ).then(() => {
+                            Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                resolve(updatedData);
+                            })
+                        })
                     })
                 }
-                else{
-                    console.log("You already Voted");
+                else {
+                    reject("you already voted");
                 }
             })
             .catch((err) => {
