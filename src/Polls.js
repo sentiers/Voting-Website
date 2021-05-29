@@ -178,7 +178,6 @@ module.exports.increOpt1 = function (pollData, curUser) {
                                     if (curUser.gender == 1) {
                                         var cur = data_g.option1Male;
                                         cur++;
-                                        console.log(cur);
                                         Polls.findOneAndUpdate(
                                             { _id: pollData },
                                             { $set: { option1Male: cur } }
@@ -239,6 +238,12 @@ module.exports.increOpt1 = function (pollData, curUser) {
                                         }
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            User.findOne({ userName: curUser.userName }).then((user) => {
+                                                User.updateOne(
+                                                    { userName: user.userName },
+                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "1" } }
+                                                ).exec()
+                                            })
                                             console.log(updatedData);
                                             resolve(updatedData);
                                         })
@@ -294,7 +299,6 @@ module.exports.increOpt2 = function (pollData, curUser) {
                                     if (curUser.gender == 1) {
                                         var cur = data_g.option2Male;
                                         cur++;
-                                        console.log(cur);
                                         Polls.findOneAndUpdate(
                                             { _id: pollData },
                                             { $set: { option2Male: cur } }
@@ -355,6 +359,12 @@ module.exports.increOpt2 = function (pollData, curUser) {
                                         }
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            User.findOne({ userName: curUser.userName }).then((user) => {
+                                                User.updateOne(
+                                                    { userName: user.userName },
+                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "2" } }
+                                                ).exec()
+                                            })
                                             console.log(updatedData);
                                             resolve(updatedData);
                                         })
