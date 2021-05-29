@@ -154,7 +154,9 @@ module.exports.increOpt1 = function (pollData, curUser) {
                     })
                 }
                 else {
-                    reject("you already voted");
+                    Polls.findOne({ _id: pollData }).then((data) => {
+                        reject(data);
+                    })
                 }
             })
             .catch((err) => {
@@ -194,7 +196,9 @@ module.exports.increOpt2 = function (pollData, curUser) {
                     })
                 }
                 else {
-                    reject("you already voted");
+                    Polls.findOne({ _id: pollData }).then((data) => {
+                        reject(data);
+                    })
                 }
             })
             .catch((err) => {

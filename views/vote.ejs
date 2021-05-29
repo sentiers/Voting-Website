@@ -164,7 +164,7 @@
 
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
-
+            
                         <div class="card-header py-3">
                             <h2 class="h4 mb-0 font-weight-bold text-primary">
                                 <%= datas.title %>
@@ -175,15 +175,28 @@
 
                             <p style="text-align:left">
                                 작성자: <%= datas.author %>
-                                <br>
-                                조회수: <%= datas.views %>
+                                    <br>
+                                    작성일: <%= datas.postDate %>
+                                        <br>
+                                        조회수: <%= datas.views %>
                             </p>
 
                             <p style="text-align:center">
                                 <%= datas.body %>
-                            </p>                            
+                            </p>
 
-                            <div class="text-center">                            
+                            <%if(typeof error !== "undefined"){%>
+                            <div class="text-center">
+                                <p style="color:red;">
+                                    <a class=" btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                    <%= error%>
+                                </p>
+                            </div>
+                            <%}%>
+
+                            <div class="text-center">
                                 <!-- Button -->
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -219,7 +232,7 @@
                                 </div>
                                 <a href="/result">결과 확인하러가기 &rarr;</a>
                             </div>
-                            
+                        
                         </div>
                     </div>
 
