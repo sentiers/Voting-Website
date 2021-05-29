@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
+mongoose.set('useFindAndModify', false);
+
 var pollSchema = new Schema({
     "board": Number,
     "title": String,
@@ -17,7 +19,8 @@ var pollSchema = new Schema({
         type: String,
         default: date
     },
-    "views": { type: Number, default: 0 }
+    "views": { type: Number, default: 0 },
+    "hasVoted": [String]
 });
 
 var Polls = mongoose.model('polls', pollSchema);
@@ -122,21 +125,37 @@ module.exports.getPollById = function (pollData) {
 //------------------------------------------------------------
 
 // 옵션1 클릭할때마다 올라가고 데이터저장
-module.exports.increOpt1 = function (pollData) {
+module.exports.increOpt1 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
-                var cur = data.option1Num;
-                cur++;
-                Polls.updateOne(
-                    { _id: pollData },
-                    { $set: { option1Num: cur } }
-                ).exec()
-                    .then(() => {
-                        Polls.findOne({ _id: pollData }).then((updatedData) => {
-                            resolve(updatedData);
+                var check = false;
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
+                        check = true
+                        break;
+                    }
+                }
+                if (check == false) {
+                    var cur = data.option1Num;
+                    cur++;
+                    Polls.updateOne(
+                        { _id: pollData },
+                        { $set: { option1Num: cur } }
+                    ).then(() => {
+                        Polls.findOneAndUpdate(
+                            { _id: pollData },
+                            { $push: { hasVoted: curUser.userName } }
+                        ).then(() => {
+                            Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                resolve(updatedData);
+                            })
                         })
                     })
+                }
+                else {
+                    reject("you already voted");
+                }
             })
             .catch((err) => {
                 reject("no results returned");
@@ -146,21 +165,37 @@ module.exports.increOpt1 = function (pollData) {
 
 
 // 옵션2 클릭할때마다 올라가고 데이터저장
-module.exports.increOpt2 = function (pollData) {
+module.exports.increOpt2 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
-                var cur = data.option2Num;
-                cur++;
-                Polls.updateOne(
-                    { _id: pollData },
-                    { $set: { option2Num: cur } }
-                ).exec()
-                    .then(() => {
-                        Polls.findOne({ _id: pollData }).then((updatedData) => {
-                            resolve(updatedData);
+                var check = false;
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
+                        check = true
+                        break;
+                    }
+                }
+                if (check == false) {
+                    var cur = data.option2Num;
+                    cur++;
+                    Polls.updateOne(
+                        { _id: pollData },
+                        { $set: { option2Num: cur } }
+                    ).then(() => {
+                        Polls.findOneAndUpdate(
+                            { _id: pollData },
+                            { $push: { hasVoted: curUser.userName } }
+                        ).then(() => {
+                            Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                resolve(updatedData);
+                            })
                         })
                     })
+                }
+                else {
+                    reject("you already voted");
+                }
             })
             .catch((err) => {
                 reject("no results returned");
@@ -182,3 +217,28 @@ module.exports.getPollsByUser = function (curUser) {
             });
     });
 }
+
+// 여기말고 위에에
+// //이미 투표했는지
+// // module.exports.ifVoted = function (curUser) {
+// //     var check = false;
+// //     for( var i = 0; i < Polls.hasVoted.lenght; i++ ){
+// //         if(Polls.hasVoted[i] == curUser.userName){
+// //             check = true;
+// //             break;
+// //         }
+// //     }
+// //     return check;
+// // }
+
+// // ifVoted = function(curUser){
+// //     var check = false;
+// //     for(var i = 0; i < pollData.hasVoted.length; i++){
+// //         if(pollData.hasVoted[i] == curUser.userName){
+// //             check = true;
+// //             break;
+// //         }
+// //     }
+
+// //     return check;
+// // }

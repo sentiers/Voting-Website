@@ -84,7 +84,7 @@ app.post("/create", function (req, res) {
 
 // 옵션 increment --------------------
 app.get("/update1/:id", ensureLogin, function (req, res) {
-  polls.increOpt1(req.params.id).then((data) => {
+  polls.increOpt1(req.params.id, req.session.user).then((data) => {
     res.render('vote', { datas: data});
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
@@ -92,7 +92,7 @@ app.get("/update1/:id", ensureLogin, function (req, res) {
 });
 
 app.get("/update2/:id", ensureLogin, function (req, res) {
-  polls.increOpt2(req.params.id).then((data) => {
+  polls.increOpt2(req.params.id, req.session.user).then((data) => {
     res.render('vote', { datas: data});
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
