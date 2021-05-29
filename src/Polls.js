@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
+mongoose.set('useFindAndModify', false );
+
 var pollSchema = new Schema({
     "board": Number,
     "title": String,
@@ -127,6 +129,16 @@ module.exports.increOpt1 = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
+                var check = false;
+                for( i=0 ; i < data.hasVoted.length; i++){
+                    if(data.hasVoted[i] == curUser.userName){
+                        check = true
+                        console.log(check)
+                        break;
+                    }
+                }
+
+                if(check == false){
                 var cur = data.option1Num;
                 cur++;
                 Polls.updateOne(
@@ -138,15 +150,22 @@ module.exports.increOpt1 = function (pollData, curUser) {
                           resolve(updatedData);
                       })
                     })
-                Polls.updateOne(
-                    { _id : pollData },
-                    { $set: { hasVoted: curUser.userName}})
+
+                Polls.findOneAndUpdate(
+                    { _id: pollData },
+                    { $push: { hasVoted: curUser.userName }}
+                )
                 .then(() => {
                     Polls.findOne({ _id: pollData }).then((updatedData) => {
                           resolve(updatedData);
                       })
                     })
+                }
+                else{
+                    console.log("You already Voted");                    
+                }
             })
+            
             .catch((err) => {
                 reject("no results returned");
             });
@@ -161,12 +180,11 @@ module.exports.increOpt2 = function (pollData, curUser) {
             .then((data) => {
                 var check = false;
                 for( i=0 ; i < data.hasVoted.length; i++){
-                    if(data.hasVoted[i] == curUser.usrName){
+                    if(data.hasVoted[i] == curUser.userName){
                         check = true
                         console.log(check)
                         break;
                     }
-                    console.log(data.hasVoted.length)
                 }
 
                 if(check == false){
@@ -181,9 +199,11 @@ module.exports.increOpt2 = function (pollData, curUser) {
                           resolve(updatedData);
                           })
                      })
-                     Polls.updateOne(
-                      { _id : pollData },
-                      { $set: { hasVoted: curUser.userName}})
+
+                     Polls.findOneAndUpdate(
+                        { _id: pollData },
+                        { $push: { hasVoted: curUser.userName }}
+                    )
                     .then(() => {
                      Polls.findOne({ _id: pollData }).then((updatedData) => {
                           resolve(updatedData);
@@ -191,7 +211,7 @@ module.exports.increOpt2 = function (pollData, curUser) {
                     })
                 }
                 else{
-                     console.log(err);
+                    console.log("You already Voted");
                 }
             })
             .catch((err) => {
