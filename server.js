@@ -26,8 +26,8 @@ app.use(function (req, res, next) {
 app.use(clientSessions({
   cookieName: "session",
   secret: "votingWeb",
-  duration: 2 * 60 * 1000,
-  activeDuration: 1000 * 60
+  duration: 2 * 60 * 60 * 1000, // 2시간 지속
+  activeDuration: 1000 * 60 * 5 // active하면 이만큼 계속 연장
 }));
 
 app.use(function (req, res, next) {
