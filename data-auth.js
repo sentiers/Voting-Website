@@ -55,18 +55,7 @@ module.exports.checkUser = function (userData) {
                             if (res === false) {
                                 reject("Incorrect Password for user: " + userData.userName);
                             } else {
-                                user[0].loginHistory.push({
-                                    dateTime: new Date().toString(),
-                                    userAgent: userData.userAgent
-                                });
-                                User.updateOne(
-                                    { userName: userData.userName },
-                                    { $set: { loginHistory: user[0].loginHistory } }
-                                ).exec()
-                                    .then(() => { resolve(user[0]); })
-                                    .catch((err) => {
-                                        reject("There was an error verifying the user: " + err);
-                                    });
+                                resolve(user[0]);
                             }
                         }).catch((err) => {
                             reject("There was an error when attempting to log in: " + err);

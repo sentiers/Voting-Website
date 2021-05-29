@@ -187,7 +187,6 @@ app.get("/login", function (req, res) {
 });
 
 app.post("/login", function (req, res) {
-  req.body.userAgent = req.get("User-Agent");
   dataServiceAuth.checkUser(req.body).then((user) => {
     req.session.user = {
       userName: user.userName,
