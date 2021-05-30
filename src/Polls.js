@@ -179,7 +179,7 @@ module.exports.increOpt1 = function (pollData, curUser) {
                                         var cur = data_g.option1Male;
                                         cur++;
                                         Polls.findOneAndUpdate(
-                                            { _id: data_g._id },
+                                            { _id: pollData },
                                             { $set: { option1Male: cur } }
                                         ).exec()
                                     } else if (curUser.gender == 2) {
