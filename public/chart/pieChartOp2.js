@@ -2,14 +2,21 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-// Pie Chart Example
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
+// 데이터 가져오기
+var ctx = document.getElementById("pieChartOp2");
+
+var optionNum = new Array();
+for (var i=0;i<2;i++)
+{
+  optionNum[i] = Number(document.getElementById("optionS-" + 2 + i).value);
+}
+
+var pieChartOp1 = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: ["남성", "여성"],
     datasets: [{
-      data: [12, 30],
+      data: [optionNum[0], optionNum[1]],
       backgroundColor: ['#4e73df', '#ff4646'],
       hoverBackgroundColor: ['#2e59d9', '#eb3232'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",

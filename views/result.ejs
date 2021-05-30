@@ -20,6 +20,36 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Data for chart -->
+    <!-- options & num -->
+    <input type="hidden" id="option1" value="<%= datas.option1 %>">
+    <input type="hidden" id="option2" value="<%= datas.option2 %>">
+
+    <input type="hidden" id="option1Num" value="<%= datas.option1Num %>">
+    <input type="hidden" id="option2Num" value="<%= datas.option2Num %>">
+
+    <!-- Sexuality -->
+    <input type="hidden" id="optionS-10" value="<%= datas.option1Male %>">
+    <input type="hidden" id="optionS-11" value="<%= datas.option1Female %>">
+
+    <input type="hidden" id="optionS-20" value="<%= datas.option2Male %>">
+    <input type="hidden" id="optionS-21" value="<%= datas.option2Female %>">
+
+    <!-- Age -->
+    <input type="hidden" id="optionA-10" value="<%= datas.option1_10 %>">
+    <input type="hidden" id="optionA-11" value="<%= datas.option1_20 %>">
+    <input type="hidden" id="optionA-12" value="<%= datas.option1_25 %>">
+    <input type="hidden" id="optionA-13" value="<%= datas.option1_30 %>">
+    <input type="hidden" id="optionA-14" value="<%= datas.option1_35 %>">
+    <input type="hidden" id="optionA-15" value="<%= datas.option1_40 %>">
+
+    <input type="hidden" id="optionA-20" value="<%= datas.option2_10 %>">
+    <input type="hidden" id="optionA-21" value="<%= datas.option2_20 %>">
+    <input type="hidden" id="optionA-22" value="<%= datas.option2_25 %>">
+    <input type="hidden" id="optionA-23" value="<%= datas.option2_30 %>">
+    <input type="hidden" id="optionA-24" value="<%= datas.option2_35 %>">
+    <input type="hidden" id="optionA-25" value="<%= datas.option2_40 %>">
+
 </head>
 
 <body id="page-top">
@@ -157,66 +187,99 @@
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h2 class="m-0 font-weight-bold text-primary">치킨? 피자?</h6>
+                            <h2 class="m-0 font-weight-bold text-primary">&quot;<%= datas.title %>&quot; 의 결과입니다.</h6>
                         </div>
                         <div class="card-body">
-                            <p style="text-align:center">XX치킨이랑 OO피자 중에 무얼 먹을까?</p>
-
-                            <!-- Button -->
-                            <div class="text-center">
-                                <br>
-                                <a href="#" class="btn btn-success btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">XX치킨</span>
-                                    
-                                </a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="#" class="btn btn-success btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">OO피자</span>
-                                </a>
-                                <br>
-                                <br>
-                                <!-- Content Row -->
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12">
-                                        <!-- Donut Chart -->
-                                        <div class="card shadow mb-4">
-                                            <!-- Card Header - Dropdown -->
-                                            <div class="card-header py-3">
-                                                <h6 class="m-0 font-weight-bold text-primary">XX치킨</h6>
-                                            </div>
-                                            <!-- Card Body -->
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-xl-6 col-lg-6">
-                                                        <div class="card shadow mb-4">
-                                                            <!-- Card Header - Dropdown -->
-                                                            <div class="card-header py-3">
-                                                                <h6 class="m-0 font-weight-bold text-primary">성별</h6>
-                                                            </div>
-                                                            <!-- Card Body -->
-                                                            <div class="card-body">
-                                                                <div class="chart-pie pt-4">
-                                                                    <canvas id="myPieChart"></canvas>
-                                                                </div>
+                            <!-- Bar Chart -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">현재 투표 결과</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="barChartBinary"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content Row -->
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary"><%= datas.option1 %></h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="card shadow mb-4">
+                                                        <!-- Card Header - Dropdown -->
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">성별</h6>
+                                                        </div>
+                                                        <!-- Card Body -->
+                                                        <div class="card-body">
+                                                            <div class="chart-pie pt-4">
+                                                                <canvas id="pieChartOp1"></canvas>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6 col-lg-6">
-                                                        <!-- Bar Chart -->
-                                                        <div class="card shadow mb-4">
-                                                            <div class="card-header py-3">
-                                                                <h6 class="m-0 font-weight-bold text-primary">나이</h6>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <!-- Bar Chart -->
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">나이</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="chart-bar">
+                                                                <canvas id="barChartOp1"></canvas>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <div class="chart-bar">
-                                                                    <canvas id="myBarChart"></canvas>
-                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content Row -->
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary"><%= datas.option2 %></h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="card shadow mb-4">
+                                                        <!-- Card Header - Dropdown -->
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">성별</h6>
+                                                        </div>
+                                                        <!-- Card Body -->
+                                                        <div class="card-body">
+                                                            <div class="chart-pie pt-4">
+                                                                <canvas id="pieChartOp2"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <!-- Bar Chart -->
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3">
+                                                            <h6 class="m-0 font-weight-bold text-primary">나이</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="chart-bar">
+                                                                <canvas id="barChartOp2"></canvas>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -270,12 +333,15 @@
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-    <script src="/chart/pieChart.js"></script>
-    <script src="/chart/barChart.js"></script>
+    <script src="/chart/barChartBinary.js"></script>
+    <script src="/chart/pieChartOp1.js"></script>
+    <script src="/chart/barChartOp1.js"></script>
+    <script src="/chart/pieChartOp2.js"></script>
+    <script src="/chart/barChartOp2.js"></script>
 
 </body>
 

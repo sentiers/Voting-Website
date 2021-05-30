@@ -28,34 +28,28 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // 데이터 가져오기
-var ctx = document.getElementById("barChartBinary");
+var ctx = document.getElementById("barChartOp1");
 
-var option = new Array();
 var optionNum = new Array();
-for (var i=0;i<2;i++)
+for (var i=0;i<6;i++)
 {
-  option[i] = document.getElementById("option" + (i+1)).value;
-}
-for (var i=0;i<2;i++)
-{
-  optionNum[i] = Number(document.getElementById("option" + (i+1) + "Num").value);
+  optionNum[i] = Number(document.getElementById("optionA-" + 1 + i).value);
 }
 
 // 그래프 끝 범위 설정
-var maxRange = Math.max(optionNum[0], optionNum[1]);
+var maxRange = Math.max(optionNum[0], optionNum[1], optionNum[2], optionNum[3], optionNum[4], optionNum[5]);
 maxRange = maxRange - (maxRange % 5) + 5;
 
-// Bar Chart
-var myBarChart = new Chart(ctx, {
+var barChartOp1 = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: [option[0], option[1]],
+    labels: ["-19", "20-24", "25-29", "30-34", "35-39", "40+"],
     datasets: [{
       label: "투표 수",
-      backgroundColor: "#00BFFF",
-      hoverBackgroundColor: "#1EA4FF",
+      backgroundColor: "#64cd3c",
+      hoverBackgroundColor: "#54bd54",
       borderColor: "#4e73df",
-      data: [optionNum[0], optionNum[1]],
+      data: [optionNum[0], optionNum[1], optionNum[2], optionNum[3], optionNum[4], optionNum[5],],
     }],
   },
   options: {
@@ -80,7 +74,7 @@ var myBarChart = new Chart(ctx, {
         ticks: {
           maxTicksLimit: 6
         },
-        maxBarThickness: 75,
+        maxBarThickness: 25,
       }],
       yAxes: [{
         ticks: {
