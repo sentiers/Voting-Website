@@ -226,7 +226,6 @@ app.get("/profile", function (req, res) {
 
 app.get("/myvotelist", function (req, res) {
   polls.getPollsByUser(req.session.user).then((data) => {
-    console.log(data);
     res.render('myvotelist', { datas: data });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
