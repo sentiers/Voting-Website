@@ -203,14 +203,13 @@
                                         <div class="text-center card mb-4 py-3 border-bottom-success">
                                             <div class="card-body">
                                                 <%= datas.option1 %>
-                                                    <br><br>
-                                                    <a href="/update1/<%= datas._id %>"
-                                                        class="btn btn-success btn-circle">
-                                                        <i class="fas fa-check"></i>
-                                                    </a>
-                                                    <br>
-                                                    임시 결과: <%= datas.option1Num %>
-
+                                                <input type="hidden" id="option1" value="<%= datas.option1 %>">
+                                                <br><br>
+                                                <a href="/update1/<%= datas._id %>"
+                                                    class="btn btn-success btn-circle">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                                <input type="hidden" id="option1Num" value="<%= datas.option1Num %>">
                                             </div>
                                         </div>
                                     </div>
@@ -219,18 +218,29 @@
                                         <div class="card mb-4 py-3 border-bottom-success">
                                             <div class="card-body">
                                                 <%= datas.option2 %>
-                                                    <br><br>
-                                                    <a href="/update2/<%= datas._id %>"
-                                                        class="btn btn-success btn-circle">
-                                                        <i class="fas fa-check"></i>
-                                                    </a>
-                                                    <br>
-                                                    임시 결과: <%= datas.option2Num %>
+                                                <input type="hidden" id="option2" value="<%= datas.option2 %>">
+                                                <br><br>
+                                                <a href="/update2/<%= datas._id %>"
+                                                    class="btn btn-success btn-circle">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                                <input type="hidden" id="option2Num" value="<%= datas.option2Num %>">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="/result">결과 확인하러가기 &rarr;</a>
+                                <!-- Bar Chart -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">현재 투표 결과</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-bar">
+                                            <canvas id="barChartBinary"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/result">더 자세한 결과 확인하러가기 &rarr;</a>
                             </div>
                         
                         </div>
@@ -271,12 +281,11 @@
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-    <script src="/chart/pieChart.js"></script>
-    <script src="/chart/barChart.js"></script>
+    <script src="/chart/barChartBinary.js"></script>
 </body>
 
 </html>
