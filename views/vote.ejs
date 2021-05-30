@@ -20,6 +20,14 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Data for chart -->
+    <!-- options & num -->
+    <input type="hidden" id="option1" value="<%= datas.option1 %>">
+    <input type="hidden" id="option2" value="<%= datas.option2 %>">
+
+    <input type="hidden" id="option1Num" value="<%= datas.option1Num %>">
+    <input type="hidden" id="option2Num" value="<%= datas.option2Num %>">
+
 </head>
 
 <body id="page-top">
@@ -203,13 +211,11 @@
                                         <div class="text-center card mb-4 py-3 border-bottom-success">
                                             <div class="card-body">
                                                 <%= datas.option1 %>
-                                                <input type="hidden" id="option1" value="<%= datas.option1 %>">
                                                 <br><br>
                                                 <a href="/update1/<%= datas._id %>"
                                                     class="btn btn-success btn-circle">
                                                     <i class="fas fa-check"></i>
                                                 </a>
-                                                <input type="hidden" id="option1Num" value="<%= datas.option1Num %>">
                                             </div>
                                         </div>
                                     </div>
@@ -218,13 +224,11 @@
                                         <div class="card mb-4 py-3 border-bottom-success">
                                             <div class="card-body">
                                                 <%= datas.option2 %>
-                                                <input type="hidden" id="option2" value="<%= datas.option2 %>">
                                                 <br><br>
                                                 <a href="/update2/<%= datas._id %>"
                                                     class="btn btn-success btn-circle">
                                                     <i class="fas fa-check"></i>
                                                 </a>
-                                                <input type="hidden" id="option2Num" value="<%= datas.option2Num %>">
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +236,7 @@
                                 <!-- Bar Chart -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">현재 투표 결과</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">투표 결과</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="chart-bar">
@@ -240,7 +244,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="/result">더 자세한 결과 확인하러가기 &rarr;</a>
+                                <a href="/result/<%= datas._id %>">더 자세한 결과 확인하러가기 &rarr;</a>
                             </div>
                         
                         </div>

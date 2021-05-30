@@ -27,9 +27,20 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-// Bar Chart Example
-var ctx = document.getElementById("myBarChart");
-var myBarChart = new Chart(ctx, {
+// 데이터 가져오기
+var ctx = document.getElementById("barChartOp2");
+
+var optionNum = new Array();
+for (var i=0;i<6;i++)
+{
+  optionNum[i] = Number(document.getElementById("optionA-" + 2 + i).value);
+}
+
+// 그래프 끝 범위 설정
+var maxRange = Math.max(optionNum[0], optionNum[1], optionNum[2], optionNum[3], optionNum[4], optionNum[5]);
+maxRange = maxRange - (maxRange % 5) + 5;
+
+var barChartOp2 = new Chart(ctx, {
   type: 'bar',
   data: {
     labels: ["-19", "20-24", "25-29", "30-34", "35-39", "40+"],
@@ -38,7 +49,7 @@ var myBarChart = new Chart(ctx, {
       backgroundColor: "#64cd3c",
       hoverBackgroundColor: "#54bd54",
       borderColor: "#4e73df",
-      data: [3, 5, 18, 15, 2, 1],
+      data: [optionNum[0], optionNum[1], optionNum[2], optionNum[3], optionNum[4], optionNum[5],],
     }],
   },
   options: {
@@ -68,7 +79,7 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 20,
+          max: maxRange,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks

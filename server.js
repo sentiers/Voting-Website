@@ -137,8 +137,12 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 
 
 // 결과
-app.get("/result", function (req, res) {
-  res.sendFile(path.join(__dirname, "./views/result.html"));
+app.get("/result/:id", function (req, res) {
+  polls.getPollById(req.params.id).then((data) => {
+    res.render('result', { datas: data });
+  }).catch((err) => {
+    res.sendFile(path.join(__dirname, "./views/404.html"));
+  });
 });
 
 
