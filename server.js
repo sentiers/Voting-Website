@@ -136,7 +136,7 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 });
 
 
-// 결과
+//결과---------------------------------------------------------
 app.get("/result/:id", function (req, res) {
   polls.getPollById(req.params.id).then((data) => {
     res.render('result', { datas: data });
