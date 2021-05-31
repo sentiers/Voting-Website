@@ -171,7 +171,9 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card bg-light text-black shadow">
                             <div class="card-body">
-                                성별: <%= datas.gender %>
+                                성별:
+                                <% if(datas.gender==1) {%> 남자 <% } %>
+                                <% if(datas.gender==2) {%> 여자 <%}%>
                             </div>
                         </div>
                     </div>
