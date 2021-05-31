@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const moment = require('moment');
-const date = moment().format('YYYY-MM-DD HH:mm:ss');
 
 mongoose.set('useFindAndModify', false);
 var User = require('../src/User.js');
@@ -14,10 +13,7 @@ var pollSchema = new Schema({
     "isClosed": Boolean,
     "views": { type: Number, default: 0 },
     "hasVoted": [String],
-    "postDate": {
-        type: String,
-        default: date
-    },
+    "postDate": { type: String },
 
     "option1": String,
     "option1Num": { type: Number, default: 0 },
@@ -52,6 +48,7 @@ module.exports.createPoll = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         let newPoll = new Polls(pollData);
         newPoll.author = curUser.userName;
+        newPoll.postDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         newPoll.save((err) => {
             if (err) {
                 console.log(err);
