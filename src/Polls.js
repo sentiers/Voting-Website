@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 
 mongoose.set('useFindAndModify', false);
-var User = require('../src/User.js');
+var Similarity = require('../src/Similarity.js');
 
 var pollSchema = new Schema({
     "board": Number,
@@ -372,6 +372,20 @@ module.exports.increOpt2 = function (pollData, curUser) {
             });
     });
 }
+
+//------------------------------------------------------------
+//유사도계산
+
+module.exports.similarityCal = function (pollData, curUser, optionNum) {
+    return new Promise(function (resolve, reject) {
+
+        console.log("connected" + optionNum);
+        resolve();
+
+
+    });
+}
+
 
 //------------------------------------------------------------
 

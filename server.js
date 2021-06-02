@@ -85,6 +85,7 @@ app.post("/create", function (req, res) {
 // 옵션 increment --------------------
 app.get("/update1/:id", ensureLogin, function (req, res) {
   polls.increOpt1(req.params.id, req.session.user).then((data) => {
+    polls.similarityCal(req.params.id, req.session.user, 1);
     res.render('vote', { datas: data });
   }).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
