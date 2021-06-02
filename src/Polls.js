@@ -12,9 +12,9 @@ var pollSchema = new Schema({
     "body": String,
     "isClosed": Boolean,
     "views": { type: Number, default: 0 },
+    "hasVoted": [String],
     "postDate": { type: String },
 
-    "option1HasVoted": [String],
     "option1": String,
     "option1Num": { type: Number, default: 0 },
     "option1Male": { type: Number, default: 0 },
@@ -26,7 +26,6 @@ var pollSchema = new Schema({
     "option1_35": { type: Number, default: 0 },
     "option1_40": { type: Number, default: 0 },
 
-    "option2HasVoted": [String],
     "option2": String,
     "option2Num": { type: Number, default: 0 },
     "option2Male": { type: Number, default: 0 },
@@ -149,8 +148,8 @@ module.exports.increOpt1 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for (i = 0; i < data.option1HasVoted.length; i++) {
-                    if (data.option1HasVoted[i] == curUser.userName) {
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
                         check = true
                         break;
                     }
@@ -169,7 +168,7 @@ module.exports.increOpt1 = function (pollData, curUser) {
                         ).exec().then(() => {
                             Polls.findOneAndUpdate(
                                 { _id: pollData },
-                                { $push: { option1HasVoted: curUser.userName } }
+                                { $push: { hasVoted: curUser.userName } }
                             ).exec().then(() => {
                                 Polls.findOne({ _id: pollData }).then((data_g) => {
 
@@ -238,6 +237,12 @@ module.exports.increOpt1 = function (pollData, curUser) {
 
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            User.findOne({ userName: curUser.userName }).then((user) => {
+                                                User.updateOne(
+                                                    { userName: user.userName },
+                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "1" } }
+                                                ).exec()
+                                            })
                                             resolve(updatedData);
                                         })
                                     })
@@ -265,8 +270,8 @@ module.exports.increOpt2 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for (i = 0; i < data.option2HasVoted.length; i++) {
-                    if (data.option2HasVoted[i] == curUser.userName) {
+                for (i = 0; i < data.hasVoted.length; i++) {
+                    if (data.hasVoted[i] == curUser.userName) {
                         check = true
                         break;
                     }
@@ -285,7 +290,7 @@ module.exports.increOpt2 = function (pollData, curUser) {
                         ).exec().then(() => {
                             Polls.findOneAndUpdate(
                                 { _id: pollData },
-                                { $push: { option2HasVoted: curUser.userName } }
+                                { $push: { hasVoted: curUser.userName } }
                             ).exec().then(() => {
                                 Polls.findOne({ _id: pollData }).then((data_g) => {
 
@@ -353,6 +358,12 @@ module.exports.increOpt2 = function (pollData, curUser) {
 
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
+                                            User.findOne({ userName: curUser.userName }).then((user) => {
+                                                User.updateOne(
+                                                    { userName: user.userName },
+                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "2" } }
+                                                ).exec()
+                                            })
                                             resolve(updatedData);
                                         })
                                     })
