@@ -376,41 +376,52 @@ module.exports.increOpt2 = function (pollData, curUser) {
 //------------------------------------------------------------
 //유사도계산
 
-module.exports.similarityCal1 = function (Data, curUser) {
+// 이거 옵션선택1한경우에 실행되는 함수입니다!!!!!!
+module.exports.similarityCal1 = function (Data, curUser) { // Data는 현재 투표게시물의 정보, curUser는 현재유저정보
     return new Promise(function (resolve, reject) {
-        Polls.findOne({ _id: Data._id }).exec().then((data) => {
-            var boardNum = data.board;
-            var check1, check2, simData, userA, userB;
-            data.option1HasVoted.forEach(function (user) {
-                console.log("countinggggggggggggggg");
-                userA = user;
-                userB = curUser.userName;
-                if (userA != userB) {
-                    console.log(userA + "0 check");
+        Polls.findOne({ _id: Data._id }).exec().then((data) => { // data: 현재투표게시물의 id와 일치하는 게시물을 Polls에서 찾은 것
+
+            var boardNum = data.board; // 게시물 번호
+
+            var check1, check2, simData, userA, userB; 
+            // check1, check2 : 비교하는 유저가 A, B 이렇게 있을때와 B,A있을때를 대비한 변수
+
+            data.option1HasVoted.forEach(function (user) { // 현재 투표게시물에 옵션1선택한사람들 하나씩 돌리는거 (현재 유저와 같은선택을 한사람들) 그러니까 밑에서 same을 업데이트해야겟쥬
+
+                console.log("countinggggggggggggggg"); //테스팅하려구한거에여
+
+                userA = user; // 투표한사람
+                userB = curUser.userName; // 현재유저
+
+                if (userA != userB) { // 둘이 다를경우에만! 왜냐면 A A 나 B B는 안되니까
+                    console.log(userA + "0 check");//테스팅하려구한거에여
                     console.log(userB + "0 check");
 
-                    Similarity.findOne({ user1: userA, user2: userB })
+                    Similarity.findOne({ user1: userA, user2: userB }) // 비교하는 유저가 A, B 일경우
                         .then((simData1) => {
-                            check1 = simData1;
-                            Similarity.findOne({ user1: userB, user2: userA })
-                                .then((simData2) => {
-                                    check2 = simData2;
-                                    if (check1) {
-                                        simData = check1;
-                                    } else if (check2) {
-                                        simData = check2;
-                                    } else {
-                                        simData = null;
-                                    }
-                                    console.log(simData + "simmmmmmmmmm");
+                            check1 = simData1; //check1는 널이거나 데이터를 가지고있겟쥬?
 
-                                    if (simData) {
-                                        if (boardNum == 1) {
-                                            var cur = simData.same1;
+                            Similarity.findOne({ user1: userB, user2: userA }) // 비교하는 유저가 B, A일경우
+                                .then((simData2) => {
+                                    check2 = simData2; //check2도 널이거나 데이터를 가지고있겟쥬?
+
+                                    if (check1) { 
+                                        simData = check1; // check1에 데이터가잇으면 simData에 데이터넣기!
+                                    } else if (check2) {
+                                        simData = check2; // check2에 데이터가잇으면 simData에 데이터넣기!
+                                    } else {
+                                        simData = null; // 둘다 데이터없으면 콜렉션안에 데이터가 아예 없다는거니 null이고 새 데이터를 만들어야겟쥬
+                                    } // 이짓을 왜했냐면요,, AB일경우랑 BA일경우 둘다 계산하면 양이많아져서 합친거에여..그리구 밑에 다른이유도잇습니당ㅠ 다른방법있으면 그렇게하셔두대여!!!!!!!!!!
+
+                                    console.log(simData + "simmmmmmmmmm");//테스팅하려구한거에여
+
+                                    if (simData) { // simData 있을때
+                                        if (boardNum == 1) { // 현재 투표게시판이 1일경우
+                                            var cur = simData.same1; //현재 same1의 수
                                             cur++;
                                             Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same1: cur } }
+                                                { user1: simData.user1, user2: simData.user2 }, // simData의 user1을 user1으로 가진 데이터찾기! 이러면 AB인경우와 BA인 경우 상관없이 받아올수있어서 이렇게한거에요(simData로 받아온 다른이유)
+                                                { $set: { same1: cur } } //업데이트
                                             ).exec()
                                         } else if (boardNum == 2) {
                                             var cur = simData.same2;
@@ -434,12 +445,14 @@ module.exports.similarityCal1 = function (Data, curUser) {
                                                 { $set: { same4: cur } }
                                             ).exec()
                                         }
-                                    } else {
-                                        var newSim = new Similarity();
-                                        newSim.user1 = userA;
-                                        newSim.user2 = userB;
+                                    } else { // simData가 널이면 새로운 유사도 데이터를 만들어야겟쥬
 
-                                        console.log(userA + userB);
+                                        var newSim = new Similarity(); 
+                                        newSim.user1 = userA;
+                                        newSim.user2 = userB; // A B 로 만들거에유
+
+                                        console.log(userA + userB); //테스팅하려구한거에여
+
                                         if (boardNum == 1) {
                                             newSim.same1 = 1;
                                         } else if (boardNum == 2) {
@@ -449,8 +462,9 @@ module.exports.similarityCal1 = function (Data, curUser) {
                                         } else if (boardNum == 4) {
                                             newSim.same4 = 1;
                                         }
-                                        console.log(newSim + "new SIm");
-                                        newSim.save();
+
+                                        console.log(newSim + "new SIm");//테스팅하려구한거에여
+                                        newSim.save(); // 저장
                                     }
                                 })
                         })
@@ -458,7 +472,7 @@ module.exports.similarityCal1 = function (Data, curUser) {
                 }
             });
 
-            for (i = 0; i < data.option2HasVoted.length; i++) {
+            for (i = 0; i < data.option2HasVoted.length; i++) {// 현재 투표게시물에 옵션2 선택한사람들 하나씩 돌리는거 (현재 유저와 다른선택을 한사람들) 그러니까 밑에서 diff를 업데이트해야겟쥬
                 var userA = data.option2HasVoted[i];
                 var userB = curUser.userName;
                 console.log(userA + "1 check");
@@ -539,12 +553,13 @@ module.exports.similarityCal1 = function (Data, curUser) {
 }
 
 
+// 이거는 옵션선택2한경우에 실행되는 함수입니다!!!!!!
 module.exports.similarityCal2 = function (Data, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: Data._id }).then((data) => {
             var boardNum = data.board;
             var check1, check2, simData;
-            for (i = 0; i < data.option2HasVoted.length; i++) {
+            for (i = 0; i < data.option2HasVoted.length; i++) { // 현재사용자랑 같은 선택을한사람들! 이번엔 option2HasVoted가 same이겟쥬
                 var userA = data.option2HasVoted[i];
                 var userB = curUser.userName;
                 if (userA != userB) {
@@ -621,7 +636,7 @@ module.exports.similarityCal2 = function (Data, curUser) {
                 }
             }
 
-            for (i = 0; i < data.option1HasVoted.length; i++) {
+            for (i = 0; i < data.option1HasVoted.length; i++) {// 현재사용자랑 다른 선택을한사람들!
                 var userA = data.option1HasVoted[i];
                 var userB = curUser.userName;
                 console.log(userA + "1 check");

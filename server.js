@@ -83,6 +83,11 @@ app.post("/create", function (req, res) {
 
 
 // 옵션 increment --------------------
+
+
+
+//여기 부분 고려해야합니다!!유사도할때!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 app.get("/update1/:id", ensureLogin, function (req, res) {
   polls.increOpt1(req.params.id, req.session.user).then((data) => {
     polls.similarityCal1(data, req.session.user).exec();
@@ -100,6 +105,10 @@ app.get("/update2/:id", ensureLogin, function (req, res) {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
+
+//--------------------------------------------------------------------------------
+
+
 
 // 음식---------------------------------------------------------
 app.get("/food/:id", ensureLogin, function (req, res) {
