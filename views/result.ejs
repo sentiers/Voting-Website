@@ -343,16 +343,29 @@
                                                                                         
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <% if(sims){sims.forEach(function(sim) { %>
+                                                                                <% var count = 0;%>
+                                                                                <% sims.forEach(function(sim) { %>
+                                                                                    <% count++; %>
                                                                                 <tbody>   
                                                                                     <tr>
-                                                                                        <td>1</td> <!-- 순위 -->
+                                                                                        <td><%= count %></td> <!-- 순위 -->
                                                                                         <td><%= sim.user1 %></td> <!-- 사람 이름-->
-                                                                                        <td><%= sim.sim1 %></td> <!-- 유사도-->
+                                                                                        <td>
+                                                                                            
+                                                                                            
+                                                                                            <%= sim.sim1 %>%
                                                                                         
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        </td> <!-- 유사도-->
+                                        
                                                                                     </tr>
                                                                                 </tbody>
-                                                                                <% })} %>
+                                                                                <% }) %>
                                                                             </table>
                                                                         </div>
                                                                     </div>

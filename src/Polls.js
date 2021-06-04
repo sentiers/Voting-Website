@@ -933,16 +933,15 @@ module.exports.simResult = function (pollData, curUser) {
                         })
                 }
             }
-
             result1(data);
             result2(data);
             Similarity.find({
                 $or: [
                     { user1: curUser.userName },
-                    { user2: curUser.userName }
+                    { user2: curUser.userName },
                 ]
             }).then((simdata) => {
-                resolve(data, simdata);
+                resolve([data, simdata]);
             })
         })
 
