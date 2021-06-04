@@ -85,16 +85,18 @@ app.post("/create", function (req, res) {
 
 app.get("/update1/:id", ensureLogin, function (req, res) {
   polls.increOpt1(req.params.id, req.session.user).then((data) => {
+    polls.similarityCal1(req.params.id, req.session.user)
     res.render('vote', { datas: data });
-  }).then(polls.similarityCal1(req.params.id, req.session.user)).catch((data) => {
+  }).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
 
 app.get("/update2/:id", ensureLogin, function (req, res) {
   polls.increOpt2(req.params.id, req.session.user).then((data) => {
+    polls.similarityCal2(req.params.id, req.session.user)
     res.render('vote', { datas: data });
-  }).then(polls.similarityCal2(req.params.id, req.session.user)).catch((data) => {
+  }).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
@@ -142,7 +144,7 @@ app.get("/result/:id", function (req, res) {
   polls.simResult(req.params.id, req.session.user).then((data) => {
     console.log(data[1]);
     res.render('result', { datas: data[0], sims: data[1] });
-    
+
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
