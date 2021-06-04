@@ -7,7 +7,6 @@ const clientSessions = require("client-sessions");
 //----------------------------------------------------
 const dataServiceAuth = require("./data-auth.js");
 const polls = require("./src/Polls.js");
-const { request } = require("http");
 //----------------------------------------------------
 const HTTP_PORT = process.env.PORT || 8080;
 //----------------------------------------------------
@@ -83,10 +82,11 @@ app.post("/create", function (req, res) {
 
 
 // 옵션 increment --------------------
+
 app.get("/update1/:id", ensureLogin, function (req, res) {
   polls.increOpt1(req.params.id, req.session.user).then((data) => {
     res.render('vote', { datas: data });
-  }).catch((data) => {
+  }).then(polls.similarityCal1(req.params.id, req.session.user)).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
@@ -94,10 +94,11 @@ app.get("/update1/:id", ensureLogin, function (req, res) {
 app.get("/update2/:id", ensureLogin, function (req, res) {
   polls.increOpt2(req.params.id, req.session.user).then((data) => {
     res.render('vote', { datas: data });
-  }).catch((data) => {
+  }).then(polls.similarityCal2(req.params.id, req.session.user)).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
+
 
 // 음식---------------------------------------------------------
 app.get("/food/:id", ensureLogin, function (req, res) {
@@ -138,7 +139,7 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 
 //결과---------------------------------------------------------
 app.get("/result/:id", function (req, res) {
-  polls.getPollById(req.params.id).then((data) => {
+  polls.simResult(req.params.id, req.session.user).then((data) => {
     res.render('result', { datas: data });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
