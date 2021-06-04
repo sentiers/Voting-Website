@@ -907,7 +907,7 @@ module.exports.simResult = function (pollData, curUser) {
 
                                                 if (boardNum == 1) {
                                                     var total = simData.same1 + simData.diff1;
-                                                    var result = (simData.same1 / total) * 100;
+                                                    var result = (simData.same1 == 0) ? 0 : ((simData.same1 / total) * 100);
                                                     Similarity.findOneAndUpdate(
                                                         { user1: simData.user1, user2: simData.user2 },
                                                         { $set: { sim1: result } }
@@ -915,14 +915,14 @@ module.exports.simResult = function (pollData, curUser) {
 
                                                 } else if (boardNum == 2) {
                                                     var total = simData.same2 + simData.diff2;
-                                                    var result = (simData.same2 / total) * 100;
+                                                    var result = (simData.same2 == 0) ? 0 : ((simData.same2 / total) * 100);
                                                     Similarity.findOneAndUpdate(
                                                         { user1: simData.user1, user2: simData.user2 },
                                                         { $set: { sim2: result } }
                                                     ).exec()
                                                 } else if (boardNum == 3) {
                                                     var total = simData.same3 + simData.diff3;
-                                                    var result = (simData.same3 / total) * 100;
+                                                    var result = (simData.same3 == 0) ? 0 : ((simData.same3 / total) * 100);
                                                     Similarity.findOneAndUpdate(
                                                         { user1: simData.user1, user2: simData.user2 },
                                                         { $set: { sim3: result } }
@@ -930,7 +930,7 @@ module.exports.simResult = function (pollData, curUser) {
 
                                                 } else if (boardNum == 4) {
                                                     var total = simData.same4 + simData.diff4;
-                                                    var result = (simData.same4 / total) * 100;
+                                                    var result = (simData.same4 == 0) ? 0 : ((simData.same4 / total) * 100);
                                                     Similarity.findOneAndUpdate(
                                                         { user1: simData.user1, user2: simData.user2 },
                                                         { $set: { sim4: result } }
@@ -947,7 +947,14 @@ module.exports.simResult = function (pollData, curUser) {
             }
             result1(data);
             result2(data);
+        })
+    });
+}
 
+
+module.exports.simSort = function (pollData, curUser) {
+    return new Promise(function (resolve, reject) {
+        Polls.findOne({ _id: pollData }).exec().then((data) => {
             Similarity.aggregate([
                 {
                     $match: {
@@ -961,22 +968,24 @@ module.exports.simResult = function (pollData, curUser) {
                     $project: {
                         user: {
                             $cond: {
-                                if: { user1: curUser.userName }, then: "$user2", else: "$user1"
+                                if: { $eq: ["$user1", curUser.userName] }, then: "$user2", else: "$user1"
                             }
                         },
-                        similarity:{ $round: [ { 
-                            $cond: {
-                                if: { $eq: [data.board, 1] }, then: "$sim1", else: {
-                                    $cond: {
-                                        if: { $eq: [data.board, 2] }, then: "$sim2", else: {
-                                            $cond: {
-                                                if: { $eq: [data.board, 3] }, then: "$sim3", else: "$sim4"
+                        similarity: {
+                            $round: [{
+                                $cond: {
+                                    if: { $eq: [data.board, 1] }, then: "$sim1", else: {
+                                        $cond: {
+                                            if: { $eq: [data.board, 2] }, then: "$sim2", else: {
+                                                $cond: {
+                                                    if: { $eq: [data.board, 3] }, then: "$sim3", else: "$sim4"
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        }, 2 ] } 
+                            }, 2]
+                        }
                     }
                 },
                 {
@@ -986,6 +995,5 @@ module.exports.simResult = function (pollData, curUser) {
                 resolve([data, simdata]);
             })
         })
-
     });
 }
