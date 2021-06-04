@@ -343,16 +343,16 @@
                                                                                         
                                                                                     </tr>
                                                                                 </thead>
-                                                                               
+                                                                                <% if(sims){sims.forEach(function(sim) { %>
                                                                                 <tbody>   
                                                                                     <tr>
                                                                                         <td>1</td> <!-- 순위 -->
-                                                                                        <td>고구마</td> <!-- 사람 이름-->
-                                                                                        <td>33%</td> <!-- 유사도-->
+                                                                                        <td><%= sim.user1 %></td> <!-- 사람 이름-->
+                                                                                        <td><%= sim.sim1 %></td> <!-- 유사도-->
                                                                                         
                                                                                     </tr>
                                                                                 </tbody>
-                                                                                
+                                                                                <% })} %>
                                                                             </table>
                                                                         </div>
                                                                     </div>

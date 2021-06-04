@@ -12,7 +12,12 @@ var similaritySchema = new Schema({
   "same3": { type: Number, default: 0 },  
   "diff3": { type: Number, default: 0 },
   "same4": { type: Number, default: 0 }, // 자유게시판
-  "diff4": { type: Number, default: 0 }
+  "diff4": { type: Number, default: 0 }, 
+
+  "sim1": { type: Number, default: 0 },  
+  "sim2": { type: Number, default: 0 },
+  "sim3": { type: Number, default: 0 }, // 자유게시판
+  "sim4": { type: Number, default: 0 }
 });
 
 var Similarity = mongoose.model("similarities", similaritySchema);

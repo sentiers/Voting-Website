@@ -8,8 +8,7 @@ var userSchema = new Schema({
   },
   "password": String,
   "age": Number,
-  "gender": Number,
-  "voteRecord" : [String] // string: 게시판넘버(1자리)/게시물_id(24자리)/옵션선택(1자리)
+  "gender": Number
 });
 
 var User = mongoose.model("users", userSchema);

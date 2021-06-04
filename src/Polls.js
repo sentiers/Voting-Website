@@ -13,9 +13,9 @@ var pollSchema = new Schema({
     "body": String,
     "isClosed": Boolean,
     "views": { type: Number, default: 0 },
-    "hasVoted": [String],
     "postDate": { type: String },
 
+    "option1HasVoted": [String],
     "option1": String,
     "option1Num": { type: Number, default: 0 },
     "option1Male": { type: Number, default: 0 },
@@ -27,6 +27,7 @@ var pollSchema = new Schema({
     "option1_35": { type: Number, default: 0 },
     "option1_40": { type: Number, default: 0 },
 
+    "option2HasVoted": [String],
     "option2": String,
     "option2Num": { type: Number, default: 0 },
     "option2Male": { type: Number, default: 0 },
@@ -149,8 +150,8 @@ module.exports.increOpt1 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for (i = 0; i < data.hasVoted.length; i++) {
-                    if (data.hasVoted[i] == curUser.userName) {
+                for (i = 0; i < data.option1HasVoted.length; i++) {
+                    if (data.option1HasVoted[i] == curUser.userName) {
                         check = true
                         break;
                     }
@@ -169,7 +170,7 @@ module.exports.increOpt1 = function (pollData, curUser) {
                         ).exec().then(() => {
                             Polls.findOneAndUpdate(
                                 { _id: pollData },
-                                { $push: { hasVoted: curUser.userName } }
+                                { $push: { option1HasVoted: curUser.userName } }
                             ).exec().then(() => {
                                 Polls.findOne({ _id: pollData }).then((data_g) => {
 
@@ -238,12 +239,6 @@ module.exports.increOpt1 = function (pollData, curUser) {
 
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
-                                            User.findOne({ userName: curUser.userName }).then((user) => {
-                                                User.updateOne(
-                                                    { userName: user.userName },
-                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "1" } }
-                                                ).exec()
-                                            })
                                             resolve(updatedData);
                                         })
                                     })
@@ -271,8 +266,8 @@ module.exports.increOpt2 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
-                for (i = 0; i < data.hasVoted.length; i++) {
-                    if (data.hasVoted[i] == curUser.userName) {
+                for (i = 0; i < data.option2HasVoted.length; i++) {
+                    if (data.option2HasVoted[i] == curUser.userName) {
                         check = true
                         break;
                     }
@@ -291,7 +286,7 @@ module.exports.increOpt2 = function (pollData, curUser) {
                         ).exec().then(() => {
                             Polls.findOneAndUpdate(
                                 { _id: pollData },
-                                { $push: { hasVoted: curUser.userName } }
+                                { $push: { option2HasVoted: curUser.userName } }
                             ).exec().then(() => {
                                 Polls.findOne({ _id: pollData }).then((data_g) => {
 
@@ -359,12 +354,6 @@ module.exports.increOpt2 = function (pollData, curUser) {
 
                                     }).then(() => {
                                         Polls.findOne({ _id: pollData }).then((updatedData) => {
-                                            User.findOne({ userName: curUser.userName }).then((user) => {
-                                                User.updateOne(
-                                                    { userName: user.userName },
-                                                    { $push: { voteRecord: updatedData.board + updatedData._id + "2" } }
-                                                ).exec()
-                                            })
                                             resolve(updatedData);
                                         })
                                     })
@@ -802,19 +791,160 @@ module.exports.getPollsByUser = function (curUser) {
 
 
 
+
 //------------------------------------------------------------
 
 // 자세한투표결과 클릭시 유사도계산하고 정렬해서 데이터넘겨주는 함수
 
 module.exports.simResult = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
-        
+        Polls.findOne({ _id: pollData }).exec().then((data) => {
 
+            const result1 = async (data) => {
+                for (const user of data.option1HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
 
+                            userA = user;
+                            userB = curUser.userName;
 
-        
+                            Similarity.findOne({ user1: userA, user2: userB })
+                                .then((simData1) => {
+                                    check1 = simData1;
+                                    Similarity.findOne({ user1: userB, user2: userA })
+                                        .then((simData2) => {
+                                            check2 = simData2;
+                                            if (check1) {
+                                                simData = check1;
+                                            } else if (check2) {
+                                                simData = check2;
+                                            } else {
+                                                simData = null;
+                                            }
 
+                                            if (simData) {
 
+                                                if (boardNum == 1) {
+                                                    var total = simData.same1 + simData.diff1;
+                                                    var result = (simData.same1 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim1: result } }
+                                                    ).exec()
+
+                                                } else if (boardNum == 2) {
+                                                    var total = simData.same2 + simData.diff2;
+                                                    var result = (simData.same2 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim2: result } }
+                                                    ).exec()
+                                                } else if (boardNum == 3) {
+                                                    var total = simData.same3 + simData.diff3;
+                                                    var result = (simData.same3 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim3: result } }
+                                                    ).exec()
+
+                                                } else if (boardNum == 4) {
+                                                    var total = simData.same4 + simData.diff4;
+                                                    var result = (simData.same4 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim4: result } }
+                                                    ).exec()
+                                                }
+                                            }
+                                        })
+                                }).catch((err) => {
+                                    console.log(err);
+                                    reject();
+                                })
+                        })
+                }
+            }
+
+            const result2 = async (data) => {
+                for (const user of data.option2HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
+
+                            userA = user;
+                            userB = curUser.userName;
+
+                            Similarity.findOne({ user1: userA, user2: userB })
+                                .then((simData1) => {
+                                    check1 = simData1;
+                                    Similarity.findOne({ user1: userB, user2: userA })
+                                        .then((simData2) => {
+                                            check2 = simData2;
+                                            if (check1) {
+                                                simData = check1;
+                                            } else if (check2) {
+                                                simData = check2;
+                                            } else {
+                                                simData = null;
+                                            }
+
+                                            if (simData) {
+
+                                                if (boardNum == 1) {
+                                                    var total = simData.same1 + simData.diff1;
+                                                    var result = (simData.same1 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim1: result } }
+                                                    ).exec()
+
+                                                } else if (boardNum == 2) {
+                                                    var total = simData.same2 + simData.diff2;
+                                                    var result = (simData.same2 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim2: result } }
+                                                    ).exec()
+                                                } else if (boardNum == 3) {
+                                                    var total = simData.same3 + simData.diff3;
+                                                    var result = (simData.same3 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim3: result } }
+                                                    ).exec()
+
+                                                } else if (boardNum == 4) {
+                                                    var total = simData.same4 + simData.diff4;
+                                                    var result = (simData.same4 / total) * 100;
+                                                    Similarity.findOneAndUpdate(
+                                                        { user1: simData.user1, user2: simData.user2 },
+                                                        { $set: { sim4: result } }
+                                                    ).exec()
+                                                }
+                                            }
+                                        })
+                                }).catch((err) => {
+                                    console.log(err);
+                                    reject();
+                                })
+                        })
+                }
+            }
+
+            result1(data);
+            result2(data);
+            Similarity.find({
+                $or: [
+                    { user1: curUser.userName },
+                    { user2: curUser.userName }
+                ]
+            }).then((simdata) => {
+                resolve(data, simdata);
+            })
+        })
 
     });
 }

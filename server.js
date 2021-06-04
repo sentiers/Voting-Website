@@ -139,13 +139,12 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 
 //결과---------------------------------------------------------
 app.get("/result/:id", function (req, res) {
-  polls.simResult(req.params.id, req.session.user).then((data) => {
-    res.render('result', { datas: data });
+  polls.simResult(req.params.id, req.session.user).then((data, simdata) => {
+    res.render('result', { datas: data, sims: simdata });
   }).catch((err) => {
     res.sendFile(path.join(__dirname, "./views/404.html"));
   });
 });
-
 
 // ----------------------------------------------------------------
 
