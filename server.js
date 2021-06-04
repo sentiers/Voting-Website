@@ -90,18 +90,16 @@ app.post("/create", function (req, res) {
 
 app.get("/update1/:id", ensureLogin, function (req, res) {
   polls.increOpt1(req.params.id, req.session.user).then((data) => {
-    polls.similarityCal1(data, req.session.user).exec();
     res.render('vote', { datas: data });
-  }).catch((data) => {
+  }).then(polls.similarityCal1(req.params.id, req.session.user)).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });
 
 app.get("/update2/:id", ensureLogin, function (req, res) {
   polls.increOpt2(req.params.id, req.session.user).then((data) => {
-    polls.similarityCal2(data, req.session.user).exec();
     res.render('vote', { datas: data });
-  }).catch((data) => {
+  }).then(polls.similarityCal2(req.params.id, req.session.user)).catch((data) => {
     res.render('vote', { datas: data, error: "이미 투표에 참여하셨습니다!" });
   });
 });

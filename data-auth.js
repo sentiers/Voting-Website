@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/votingDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect("mongodb+srv://dbUser:voting2021@votingweb.wwp3p.mongodb.net/votingDatabase123123?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 ///////////////////////////////////////////////////
 

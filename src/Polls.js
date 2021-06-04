@@ -379,7 +379,7 @@ module.exports.increOpt2 = function (pollData, curUser) {
 // 이거 옵션선택1한경우에 실행되는 함수입니다!!!!!!
 module.exports.similarityCal1 = function (Data, curUser) { // Data는 현재 투표게시물의 정보, curUser는 현재유저정보
     return new Promise(function (resolve, reject) {
-        Polls.findOne({ _id: Data._id }).exec().then((data) => { // data: 현재투표게시물의 id와 일치하는 게시물을 Polls에서 찾은 것
+        Polls.findOne({ _id: Data }).exec().then((data) => { // data: 현재투표게시물의 id와 일치하는 게시물을 Polls에서 찾은 것
 
             var boardNum = data.board; // 게시물 번호
 
@@ -467,6 +467,8 @@ module.exports.similarityCal1 = function (Data, curUser) { // Data는 현재 투
                                         newSim.save(); // 저장
                                     }
                                 })
+                        }).catch((err)=>{
+                            console.log("1-1 error");
                         })
 
                 }
@@ -544,6 +546,8 @@ module.exports.similarityCal1 = function (Data, curUser) { // Data는 현재 투
                                     }
                                 })
 
+                        }).catch((err)=>{
+                            console.log("1-2 error");
                         })
                 }
             }
@@ -556,7 +560,7 @@ module.exports.similarityCal1 = function (Data, curUser) { // Data는 현재 투
 // 이거는 옵션선택2한경우에 실행되는 함수입니다!!!!!!
 module.exports.similarityCal2 = function (Data, curUser) {
     return new Promise(function (resolve, reject) {
-        Polls.findOne({ _id: Data._id }).then((data) => {
+        Polls.findOne({ _id: Data }).then((data) => {
             var boardNum = data.board;
             var check1, check2, simData;
             for (i = 0; i < data.option2HasVoted.length; i++) { // 현재사용자랑 같은 선택을한사람들! 이번엔 option2HasVoted가 same이겟쥬
@@ -631,6 +635,8 @@ module.exports.similarityCal2 = function (Data, curUser) {
                                         newSim.save();
                                     }
                                 })
+                        }).catch((err)=>{
+                            console.log("2-1 error");
                         })
 
                 }
@@ -708,6 +714,8 @@ module.exports.similarityCal2 = function (Data, curUser) {
                                     }
                                 })
 
+                        }).catch((err)=>{
+                            console.log("2-2 error");
                         })
                 }
             }
