@@ -948,6 +948,7 @@ module.exports.simResult = function (pollData, curUser) {
             result1(data);
             result2(data);
         })
+        resolve();
     });
 }
 

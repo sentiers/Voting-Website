@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>고민 멈춰! - Vote Statistics</title>
+    <title>고민 멈춰! - Vote Similarity</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -186,7 +186,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">투표 결과 통계</h1>
+                        <h1 class="h3 mb-0 text-gray-800">유사도</h1>
                         <!-- <img src="https://i.imgur.com/SUxcpRd.png" onclick="window.open('띄울 파일주소','파일이름','width=100,height=50');"> -->
                     </div>
 
@@ -211,6 +211,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+
                                     <!-- Content Row -->
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12">
@@ -219,7 +221,7 @@
                                                 <!-- Card Header - Dropdown -->
                                                 <div class="card-header py-3">
                                                     <h6 class="m-0 font-weight-bold text-primary">
-                                                        <%= datas.option1 %>
+                                                        유사도 결과
                                                     </h6>
                                                 </div>
                                                 <!-- Card Body -->
@@ -229,141 +231,178 @@
                                                             <div class="card shadow mb-4">
                                                                 <!-- Card Header - Dropdown -->
                                                                 <div class="card-header py-3">
-                                                                    <h6 class="m-0 font-weight-bold text-primary">성별
+                                                                    <h6 class="m-0 font-weight-bold text-primary">
+                                                                        <%= datas.option1 %>
                                                                     </h6>
                                                                 </div>
                                                                 <!-- Card Body -->
                                                                 <div class="card-body">
                                                                     <div class="chart-pie pt-4">
-                                                                        <canvas id="pieChartOp1"></canvas>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered"
+                                                                                id="dataTable" width="100%"
+                                                                                cellspacing="0">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>순위</th>
+                                                                                        <th>사람 이름</th>
+                                                                                        <th>유사도</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <% var count1=0;%>
+                                                                                    <% sims.forEach(function(sim) { %>
+                                                                                        <% datas.option1HasVoted.forEach(function(v)
+                                                                                            { %>
+                                                                                            <% if(v==sim.user) { %>
+                                                                                                <% count1++; %>
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <%= count1
+                                                                                                                    %>
+                                                                                                            </td>
+                                                                                                            <!-- 순위 -->
+                                                                                                            <td>
+                                                                                                                <%= sim.user
+                                                                                                                    %>
+                                                                                                            </td>
+                                                                                                            <!-- 사람 이름-->
+                                                                                                            <td>
+                                                                                                                <%= sim.similarity
+                                                                                                                    %>%
+                                                                                                            </td>
+                                                                                                            <!-- 유사도-->
+
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                    <% }})}) %>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-6 col-lg-6">
-                                                            <!-- Bar Chart -->
+                                                            <!-- 왼쪽 (사람) 오른쪽 (유사도) 표 -->
                                                             <div class="card shadow mb-4">
                                                                 <div class="card-header py-3">
-                                                                    <h6 class="m-0 font-weight-bold text-primary">나이
+                                                                    <h6 class="m-0 font-weight-bold text-primary">
+                                                                        <%= datas.option2 %>
                                                                     </h6>
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <div class="chart-bar">
-                                                                        <canvas id="barChartOp1"></canvas>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered"
+                                                                                id="dataTable" width="100%"
+                                                                                cellspacing="0">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>순위</th>
+                                                                                        <th>사람 이름</th>
+                                                                                        <th>유사도</th>
+                                                                                    </tr>
+                                                                                </thead>
+
+                                                                                <% var count2=0;%>
+                                                                                    <% sims.forEach(function(sim) { %>
+                                                                                        <% datas.option2HasVoted.forEach(function(v)
+                                                                                            { %>
+                                                                                            <% if(v==sim.user) { %>
+                                                                                                <% count2++; %>
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <%= count2
+                                                                                                                    %>
+                                                                                                            </td>
+                                                                                                            <!-- 순위 -->
+                                                                                                            <td>
+                                                                                                                <%= sim.user
+                                                                                                                    %>
+                                                                                                            </td>
+                                                                                                            <!-- 사람 이름-->
+                                                                                                            <td>
+                                                                                                                <%= sim.similarity
+                                                                                                                    %>%
+                                                                                                            </td>
+                                                                                                            <!-- 유사도-->
+
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                    <% }})}) %>
+
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
+                                                
                                             </div>
+                                            <a href="/result/<%= datas._id %>">통계 결과로 돌아가기 &rarr;</a>
                                         </div>
+
+
                                     </div>
-                                    <!-- Content Row -->
-                                    <div class="row">
-                                        <div class="col-xl-12 col-lg-12">
-                                            <!-- Donut Chart -->
-                                            <div class="card shadow mb-4">
-                                                <!-- Card Header - Dropdown -->
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-primary">
-                                                        <%= datas.option2 %>
-                                                    </h6>
-                                                </div>
-                                                <!-- Card Body -->
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-xl-6 col-lg-6">
-                                                            <div class="card shadow mb-4">
-                                                                <!-- Card Header - Dropdown -->
-                                                                <div class="card-header py-3">
-                                                                    <h6 class="m-0 font-weight-bold text-primary">성별
-                                                                    </h6>
-                                                                </div>
-                                                                <!-- Card Body -->
-                                                                <div class="card-body">
-                                                                    <div class="chart-pie pt-4">
-                                                                        <canvas id="pieChartOp2"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-6 col-lg-6">
-                                                            <!-- Bar Chart -->
-                                                            <div class="card shadow mb-4">
-                                                                <div class="card-header py-3">
-                                                                    <h6 class="m-0 font-weight-bold text-primary">나이
-                                                                    </h6>
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    <div class="chart-bar">
-                                                                        <canvas id="barChartOp2"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="/similarity/<%= datas._id %>">유사도 확인하기 &rarr;</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="post_btns">
+                <div class="post_btns">
 
-                <div class="fr">
+                    <div class="fr">
 
-                </div>
-
-            </div>
-            <!-- End of Main Content -->
-
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; 고민멈춰! 2021</span>
                     </div>
+
                 </div>
-            </footer>
-            <!-- End of Footer -->
+                <!-- End of Main Content -->
+
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; 고민멈춰! 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="/vendor/chart.js/Chart.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-    <script src="/chart/barChartBinary.js"></script>
-    <script src="/chart/pieChartOp1.js"></script>
-    <script src="/chart/barChartOp1.js"></script>
-    <script src="/chart/pieChartOp2.js"></script>
-    <script src="/chart/barChartOp2.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/js/sb-admin-2.min.js"></script>
+        <script src="/chart/barChartBinary.js"></script>
+        <script src="/chart/pieChartOp1.js"></script>
+        <script src="/chart/barChartOp1.js"></script>
+        <script src="/chart/pieChartOp2.js"></script>
+        <script src="/chart/barChartOp2.js"></script>
 
 </body>
 
