@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const moment = require('moment');
+const delay = require('delay');
 
 mongoose.set('useFindAndModify', false);
 const Similarity = require('../src/Similarity.js');
@@ -381,184 +382,196 @@ module.exports.similarityCal1 = function (Data, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: Data }).exec().then((data) => {
 
-            var boardNum = data.board;
+            const result1 = async (data) => {
+                for (const user of data.option1HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
+                            console.log("-----option1-----counting---\n");
 
-            var check1, check2, simData, userA, userB;
+                            userA = user;
+                            userB = curUser.userName;
 
-            data.option1HasVoted.forEach(function (user) {
+                            if (userA != userB) {
+                                console.log(userA + "-------------\n");
+                                console.log(userB + "-------------\n");
 
-                console.log("-----option1-----counting---\n");
+                                Similarity.findOne({ user1: userA, user2: userB })
+                                    .then((simData1) => {
+                                        check1 = simData1;
 
-                userA = user;
-                userB = curUser.userName;
+                                        Similarity.findOne({ user1: userB, user2: userA })
+                                            .then((simData2) => {
+                                                check2 = simData2;
+                                                if (check1) {
+                                                    simData = check1;
+                                                } else if (check2) {
+                                                    simData = check2;
+                                                } else {
+                                                    simData = null;
+                                                }
 
-                if (userA != userB) {
-                    console.log(userA + "-------------\n");
-                    console.log(userB + "-------------\n");
+                                                console.log(simData + "-------Simmm------\n");
 
-                    Similarity.findOne({ user1: userA, user2: userB })
-                        .then((simData1) => {
-                            check1 = simData1;
+                                                if (simData) {
+                                                    console.log("-------update------\n");
+                                                    if (boardNum == 1) {
+                                                        var cur = simData.same1;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same1: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 2) {
+                                                        var cur = simData.same2;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same2: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 3) {
+                                                        var cur = simData.same3;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same3: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 4) {
+                                                        var cur = simData.same4;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same4: cur } }
+                                                        ).exec()
+                                                    }
+                                                } else {
 
-                            Similarity.findOne({ user1: userB, user2: userA })
-                                .then((simData2) => {
-                                    check2 = simData2;
+                                                    var newSim = new Similarity();
+                                                    newSim.user1 = userA;
+                                                    newSim.user2 = userB;
 
-                                    if (check1) {
-                                        simData = check1;
-                                    } else if (check2) {
-                                        simData = check2;
-                                    } else {
-                                        simData = null;
-                                    }
+                                                    console.log(userA + userB);
 
-                                    console.log(simData + "-------Simmm------\n");
+                                                    if (boardNum == 1) {
+                                                        newSim.same1 = 1;
+                                                    } else if (boardNum == 2) {
+                                                        newSim.same2 = 1;
+                                                    } else if (boardNum == 3) {
+                                                        newSim.same3 = 1;
+                                                    } else if (boardNum == 4) {
+                                                        newSim.same4 = 1;
+                                                    }
+                                                    console.log(newSim + "-------newSim------\n");
+                                                    newSim.save();
+                                                }
+                                            })
+                                    }).catch((err) => {
+                                        console.log("1-1 error");
+                                    })
 
-                                    if (simData) {
-                                        console.log("-------update------\n");
-                                        if (boardNum == 1) {
-                                            var cur = simData.same1;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same1: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 2) {
-                                            var cur = simData.same2;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same2: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 3) {
-                                            var cur = simData.same3;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same3: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 4) {
-                                            var cur = simData.same4;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same4: cur } }
-                                            ).exec()
-                                        }
-                                    } else {
+                            }
 
-                                        var newSim = new Similarity();
-                                        newSim.user1 = userA;
-                                        newSim.user2 = userB;
-
-                                        console.log(userA + userB);
-
-                                        if (boardNum == 1) {
-                                            newSim.same1 = 1;
-                                        } else if (boardNum == 2) {
-                                            newSim.same2 = 1;
-                                        } else if (boardNum == 3) {
-                                            newSim.same3 = 1;
-                                        } else if (boardNum == 4) {
-                                            newSim.same4 = 1;
-                                        }
-                                        console.log(newSim + "-------newSim------\n");
-                                        newSim.save();
-                                    }
-                                })
-                        }).catch((err) => {
-                            console.log("1-1 error");
-                        })
-
-                }
-            })
-
-            data.option2HasVoted.forEach(function (user) {
-
-                console.log("-----option2-----counting---\n");
-
-                userA = user;
-                userB = curUser.userName;
-
-                if (userA != userB) {
-                    console.log(userA + "-------------\n");
-                    console.log(userB + "-------------\n");
-
-                    Similarity.findOne({ user1: userA, user2: userB })
-                        .then((simData1) => {
-                            check1 = simData1;
-                            Similarity.findOne({ user1: userB, user2: userA })
-                                .then((simData2) => {
-                                    check2 = simData2;
-                                    var simData;
-                                    if (check1) {
-                                        simData = check1;
-                                    } else if (check2) {
-                                        simData = check2;
-                                    } else {
-                                        simData = null;
-                                    }
-
-                                    console.log(simData + "-------SimmmDIFF------\n");
-
-                                    if (simData) {
-                                        console.log("-------update------\n");
-                                        if (boardNum == 1) {
-                                            var cur = simData.diff1;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff1: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 2) {
-                                            var cur = simData.diff2;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff2: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 3) {
-                                            var cur = simData.diff3;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff3: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 4) {
-                                            var cur = simData.diff4;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff4: cur } }
-                                            ).exec()
-                                        }
-                                    } else {
-                                        var newSim = new Similarity();
-                                        newSim.user1 = userA;
-                                        newSim.user2 = userB;
-
-                                        if (boardNum == 1) {
-                                            newSim.diff1 = 1;
-                                        } else if (boardNum == 2) {
-                                            newSim.diff2 = 1;
-                                        } else if (boardNum == 3) {
-                                            newSim.diff3 = 1;
-                                        } else if (boardNum == 4) {
-                                            newSim.diff4 = 1;
-                                        }
-                                        console.log(newSim + "-------newSim------\n");
-                                        newSim.save()
-                                    }
-                                })
-
-                        }).catch((err) => {
-                            console.log("1-2 error");
                         })
                 }
-            })
+            }
 
+            const result2 = async (data) => {
+                for (const user of data.option2HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
+
+                            console.log("-----option2-----counting---\n");
+
+                            userA = user;
+                            userB = curUser.userName;
+
+                            if (userA != userB) {
+                                console.log(userA + "-------------\n");
+                                console.log(userB + "-------------\n");
+
+                                Similarity.findOne({ user1: userA, user2: userB })
+                                    .then((simData1) => {
+                                        check1 = simData1;
+                                        Similarity.findOne({ user1: userB, user2: userA })
+                                            .then((simData2) => {
+                                                check2 = simData2;
+                                                if (check1) {
+                                                    simData = check1;
+                                                } else if (check2) {
+                                                    simData = check2;
+                                                } else {
+                                                    simData = null;
+                                                }
+
+                                                console.log(simData + "-------SimmmDIFF------\n");
+
+                                                if (simData) {
+                                                    console.log("-------update------\n");
+                                                    if (boardNum == 1) {
+                                                        var cur = simData.diff1;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff1: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 2) {
+                                                        var cur = simData.diff2;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff2: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 3) {
+                                                        var cur = simData.diff3;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff3: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 4) {
+                                                        var cur = simData.diff4;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff4: cur } }
+                                                        ).exec()
+                                                    }
+                                                } else {
+                                                    var newSim = new Similarity();
+                                                    newSim.user1 = userA;
+                                                    newSim.user2 = userB;
+
+                                                    if (boardNum == 1) {
+                                                        newSim.diff1 = 1;
+                                                    } else if (boardNum == 2) {
+                                                        newSim.diff2 = 1;
+                                                    } else if (boardNum == 3) {
+                                                        newSim.diff3 = 1;
+                                                    } else if (boardNum == 4) {
+                                                        newSim.diff4 = 1;
+                                                    }
+                                                    console.log(newSim + "-------newSim------\n");
+                                                    newSim.save()
+                                                }
+                                            })
+
+                                    }).catch((err) => {
+                                        console.log("1-2 error");
+                                    })
+                            }
+
+                        })
+                }
+            }
+
+            result1(data);
+            result2(data);
+            resolve();
         })
-        resolve();
+
     });
 }
 
@@ -568,186 +581,198 @@ module.exports.similarityCal2 = function (Data, curUser) {
     return new Promise(function (resolve, reject) {
         Polls.findOne({ _id: Data }).exec().then((data) => {
 
-            var boardNum = data.board;
+            const result1 = async (data) => {
+                for (const user of data.option2HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
+                            console.log("-----option1-----counting---\n");
 
-            var check1, check2, simData, userA, userB;
+                            userA = user;
+                            userB = curUser.userName;
 
-            data.option2HasVoted.forEach(function (user) {
+                            if (userA != userB) {
+                                console.log(userA + "-------------\n");
+                                console.log(userB + "-------------\n");
 
-                console.log("-----option2-----counting---\n");
+                                Similarity.findOne({ user1: userA, user2: userB })
+                                    .then((simData1) => {
+                                        check1 = simData1;
 
-                userA = user;
-                userB = curUser.userName;
+                                        Similarity.findOne({ user1: userB, user2: userA })
+                                            .then((simData2) => {
+                                                check2 = simData2;
+                                                if (check1) {
+                                                    simData = check1;
+                                                } else if (check2) {
+                                                    simData = check2;
+                                                } else {
+                                                    simData = null;
+                                                }
 
-                if (userA != userB) {
-                    console.log(userA + "-------------\n");
-                    console.log(userB + "-------------\n");
+                                                console.log(simData + "-------Simmm------\n");
 
-                    Similarity.findOne({ user1: userA, user2: userB })
-                        .then((simData1) => {
-                            check1 = simData1;
+                                                if (simData) {
+                                                    console.log("-------update------\n");
+                                                    if (boardNum == 1) {
+                                                        var cur = simData.same1;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same1: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 2) {
+                                                        var cur = simData.same2;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same2: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 3) {
+                                                        var cur = simData.same3;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same3: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 4) {
+                                                        var cur = simData.same4;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { same4: cur } }
+                                                        ).exec()
+                                                    }
+                                                } else {
 
-                            Similarity.findOne({ user1: userB, user2: userA })
-                                .then((simData2) => {
-                                    check2 = simData2;
+                                                    var newSim = new Similarity();
+                                                    newSim.user1 = userA;
+                                                    newSim.user2 = userB;
 
-                                    if (check1) {
-                                        simData = check1;
-                                    } else if (check2) {
-                                        simData = check2;
-                                    } else {
-                                        simData = null;
-                                    }
+                                                    console.log(userA + userB);
 
-                                    console.log(simData + "-------Simmm------\n");
+                                                    if (boardNum == 1) {
+                                                        newSim.same1 = 1;
+                                                    } else if (boardNum == 2) {
+                                                        newSim.same2 = 1;
+                                                    } else if (boardNum == 3) {
+                                                        newSim.same3 = 1;
+                                                    } else if (boardNum == 4) {
+                                                        newSim.same4 = 1;
+                                                    }
+                                                    console.log(newSim + "-------newSim------\n");
+                                                    newSim.save();
+                                                }
+                                            })
+                                    }).catch((err) => {
+                                        console.log("1-1 error");
+                                    })
 
-                                    if (simData) {
-                                        console.log("-------update------\n");
-                                        if (boardNum == 1) {
-                                            var cur = simData.same1;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same1: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 2) {
-                                            var cur = simData.same2;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same2: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 3) {
-                                            var cur = simData.same3;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same3: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 4) {
-                                            var cur = simData.same4;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { same4: cur } }
-                                            ).exec()
-                                        }
-                                    } else {
+                            }
 
-                                        var newSim = new Similarity();
-                                        newSim.user1 = userA;
-                                        newSim.user2 = userB;
-
-                                        console.log(userA + userB);
-
-                                        if (boardNum == 1) {
-                                            newSim.same1 = 1;
-                                        } else if (boardNum == 2) {
-                                            newSim.same2 = 1;
-                                        } else if (boardNum == 3) {
-                                            newSim.same3 = 1;
-                                        } else if (boardNum == 4) {
-                                            newSim.same4 = 1;
-                                        }
-                                        console.log(newSim + "-------newSim------\n");
-                                        newSim.save();
-                                    }
-                                })
-                        }).catch((err) => {
-                            console.log("2-1 error");
-                        })
-
-                }
-            })
-
-            data.option1HasVoted.forEach(function (user) {
-
-                console.log("-----option1-----counting---\n");
-
-                userA = user;
-                userB = curUser.userName;
-
-                if (userA != userB) {
-                    console.log(userA + "-------------\n");
-                    console.log(userB + "-------------\n");
-
-                    Similarity.findOne({ user1: userA, user2: userB })
-                        .then((simData1) => {
-                            check1 = simData1;
-                            Similarity.findOne({ user1: userB, user2: userA })
-                                .then((simData2) => {
-                                    check2 = simData2;
-                                    var simData;
-                                    if (check1) {
-                                        simData = check1;
-                                    } else if (check2) {
-                                        simData = check2;
-                                    } else {
-                                        simData = null;
-                                    }
-
-                                    console.log(simData + "-------SimmmDIFF------\n");
-
-                                    if (simData) {
-                                        console.log("-------update------\n");
-                                        if (boardNum == 1) {
-                                            var cur = simData.diff1;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff1: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 2) {
-                                            var cur = simData.diff2;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff2: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 3) {
-                                            var cur = simData.diff3;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff3: cur } }
-                                            ).exec()
-                                        } else if (boardNum == 4) {
-                                            var cur = simData.diff4;
-                                            cur++;
-                                            Similarity.findOneAndUpdate(
-                                                { user1: simData.user1, user2: simData.user2 },
-                                                { $set: { diff4: cur } }
-                                            ).exec()
-                                        }
-                                    } else {
-                                        var newSim = new Similarity();
-                                        newSim.user1 = userA;
-                                        newSim.user2 = userB;
-
-                                        if (boardNum == 1) {
-                                            newSim.diff1 = 1;
-                                        } else if (boardNum == 2) {
-                                            newSim.diff2 = 1;
-                                        } else if (boardNum == 3) {
-                                            newSim.diff3 = 1;
-                                        } else if (boardNum == 4) {
-                                            newSim.diff4 = 1;
-                                        }
-                                        console.log(newSim + "-------newSim------\n");
-                                        newSim.save()
-                                    }
-                                })
-
-                        }).catch((err) => {
-                            console.log("2-2 error");
                         })
                 }
-            })
+            }
+
+            const result2 = async (data) => {
+                for (const user of data.option1HasVoted) {
+                    await delay()
+                        .then(() => {
+                            var boardNum = data.board;
+                            var check1, check2, simData, userA, userB;
+
+                            console.log("-----option2-----counting---\n");
+
+                            userA = user;
+                            userB = curUser.userName;
+
+                            if (userA != userB) {
+                                console.log(userA + "-------------\n");
+                                console.log(userB + "-------------\n");
+
+                                Similarity.findOne({ user1: userA, user2: userB })
+                                    .then((simData1) => {
+                                        check1 = simData1;
+                                        Similarity.findOne({ user1: userB, user2: userA })
+                                            .then((simData2) => {
+                                                check2 = simData2;
+                                                if (check1) {
+                                                    simData = check1;
+                                                } else if (check2) {
+                                                    simData = check2;
+                                                } else {
+                                                    simData = null;
+                                                }
+
+                                                console.log(simData + "-------SimmmDIFF------\n");
+
+                                                if (simData) {
+                                                    console.log("-------update------\n");
+                                                    if (boardNum == 1) {
+                                                        var cur = simData.diff1;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff1: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 2) {
+                                                        var cur = simData.diff2;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff2: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 3) {
+                                                        var cur = simData.diff3;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff3: cur } }
+                                                        ).exec()
+                                                    } else if (boardNum == 4) {
+                                                        var cur = simData.diff4;
+                                                        cur++;
+                                                        Similarity.findOneAndUpdate(
+                                                            { user1: simData.user1, user2: simData.user2 },
+                                                            { $set: { diff4: cur } }
+                                                        ).exec()
+                                                    }
+                                                } else {
+                                                    var newSim = new Similarity();
+                                                    newSim.user1 = userA;
+                                                    newSim.user2 = userB;
+
+                                                    if (boardNum == 1) {
+                                                        newSim.diff1 = 1;
+                                                    } else if (boardNum == 2) {
+                                                        newSim.diff2 = 1;
+                                                    } else if (boardNum == 3) {
+                                                        newSim.diff3 = 1;
+                                                    } else if (boardNum == 4) {
+                                                        newSim.diff4 = 1;
+                                                    }
+                                                    console.log(newSim + "-------newSim------\n");
+                                                    newSim.save()
+                                                }
+                                            })
+
+                                    }).catch((err) => {
+                                        console.log("1-2 error");
+                                    })
+                            }
+
+                        })
+                }
+            }
+
+            result1(data);
+            result2(data);
+            resolve();
         })
-        resolve();
+
     });
 }
-
 
 //------------------------------------------------------------
 
