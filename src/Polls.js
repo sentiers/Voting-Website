@@ -156,6 +156,12 @@ module.exports.increOpt1 = function (pollData, curUser) {
                         break;
                     }
                 }
+                for (i = 0; i < data.option2HasVoted.length; i++) {
+                    if (data.option2HasVoted[i] == curUser.userName) {
+                        check = true
+                        break;
+                    }
+                }
                 if (check == false) {
                     var num = data.option1Num;
                     num++;
@@ -266,6 +272,12 @@ module.exports.increOpt2 = function (pollData, curUser) {
         Polls.findOne({ _id: pollData })
             .then((data) => {
                 var check = false;
+                for (i = 0; i < data.option1HasVoted.length; i++) {
+                    if (data.option1HasVoted[i] == curUser.userName) {
+                        check = true
+                        break;
+                    }
+                }
                 for (i = 0; i < data.option2HasVoted.length; i++) {
                     if (data.option2HasVoted[i] == curUser.userName) {
                         check = true
