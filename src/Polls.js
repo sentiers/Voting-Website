@@ -788,3 +788,22 @@ module.exports.getPollsByUser = function (curUser) {
             });
     });
 }
+
+
+
+//------------------------------------------------------------
+
+// 자세한투표결과 클릭시 유사도계산하고 정렬해서 데이터넘겨주는 함수
+
+module.exports.simResult = function (pollData, curUser) {
+    return new Promise(function (resolve, reject) {
+        
+
+
+
+        
+
+
+
+    });
+}
