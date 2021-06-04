@@ -140,7 +140,7 @@ app.get("/free/:id", ensureLogin, function (req, res) {
 //결과---------------------------------------------------------
 app.get("/result/:id", function (req, res) {
   polls.simResult(req.params.id, req.session.user).then((data) => {
-    console.log(data[0]);
+    console.log(data[1]);
     res.render('result', { datas: data[0], sims: data[1] });
     
   }).catch((err) => {

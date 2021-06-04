@@ -935,12 +935,42 @@ module.exports.simResult = function (pollData, curUser) {
             }
             result1(data);
             result2(data);
-            Similarity.find({
-                $or: [
-                    { user1: curUser.userName },
-                    { user2: curUser.userName },
-                ]
-            }).then((simdata) => {
+
+            Similarity.aggregate([
+                {
+                    $match: {
+                        $or: [
+                            { user1: curUser.userName },
+                            { user2: curUser.userName }
+                        ]
+                    }
+                },
+                {
+                    $project: {
+                        user: {
+                            $cond: {
+                                if: { user1: curUser.userName }, then: "$user2", else: "$user1"
+                            }
+                        },
+                        similarity:{ $round: [ { 
+                            $cond: {
+                                if: { $eq: [data.board, 1] }, then: "$sim1", else: {
+                                    $cond: {
+                                        if: { $eq: [data.board, 2] }, then: "$sim2", else: {
+                                            $cond: {
+                                                if: { $eq: [data.board, 3] }, then: "$sim3", else: "$sim4"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }, 2 ] } 
+                    }
+                },
+                {
+                    $sort: { similarity: -1 }
+                }
+            ]).then((simdata) => {
                 resolve([data, simdata]);
             })
         })

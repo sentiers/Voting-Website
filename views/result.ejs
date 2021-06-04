@@ -343,29 +343,20 @@
                                                                                         
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <% var count = 0;%>
-                                                                                <% sims.forEach(function(sim) { %>
-                                                                                    <% count++; %>
+                                                                                <% var count1 = 0;%>
+                                                                                <% sims.forEach(function(sim) { %>                                                                                    
+                                                                                    <% datas.option1HasVoted.forEach(function(v) { %>
+                                                                                        <% if(v == sim.user) { %>
+                                                                                            <% count1++; %>   
                                                                                 <tbody>   
                                                                                     <tr>
-                                                                                        <td><%= count %></td> <!-- 순위 -->
-                                                                                        <td><%= sim.user1 %></td> <!-- 사람 이름-->
-                                                                                        <td>
-                                                                                            
-                                                                                            
-                                                                                            <%= sim.sim1 %>%
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        </td> <!-- 유사도-->
+                                                                                        <td><%= count1 %></td> <!-- 순위 -->
+                                                                                        <td><%= sim.user %></td> <!-- 사람 이름-->
+                                                                                        <td><%= sim.similarity %>% </td> <!-- 유사도-->
                                         
                                                                                     </tr>
                                                                                 </tbody>
-                                                                                <% }) %>
+                                                                                <% }})}) %>
                                                                             </table>
                                                                         </div>
                                                                     </div>
@@ -391,14 +382,20 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 
+                                                                                <% var count2 = 0;%>
+                                                                                <% sims.forEach(function(sim) { %>                            
+                                                                                    <% datas.option2HasVoted.forEach(function(v) { %>
+                                                                                        <% if(v == sim.user) { %>
+                                                                                            <% count2++; %>   
                                                                                 <tbody>   
                                                                                     <tr>
-                                                                                        <td>1</td>
-                                                                                        <td>감자</td> <!-- 사람 이름-->
-                                                                                        <td>75%</td> <!-- 유사도 -->
-                                                                                    
+                                                                                        <td><%= count2 %></td> <!-- 순위 -->
+                                                                                        <td><%= sim.user %></td> <!-- 사람 이름-->
+                                                                                        <td><%= sim.similarity %>% </td> <!-- 유사도-->
+                                        
                                                                                     </tr>
                                                                                 </tbody>
+                                                                                <% }})}) %>
                                                                                 
                                                                             </table>
                                                                         </div>
