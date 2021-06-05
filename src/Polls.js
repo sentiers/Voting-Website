@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const delay = require('delay');
 
+moment.tz.setDefault("Asia/Seoul");
 mongoose.set('useFindAndModify', false);
 const Similarity = require('../src/Similarity.js');
 
@@ -48,8 +49,9 @@ var Polls = mongoose.model('polls', pollSchema);
 module.exports.createPoll = function (pollData, curUser) {
     return new Promise(function (resolve, reject) {
         let newPoll = new Polls(pollData);
+        var date = moment().format('YYYY-MM-DD HH:mm:ss');
         newPoll.author = curUser.userName;
-        newPoll.postDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        newPoll.postDate = date;
         newPoll.save((err) => {
             if (err) {
                 console.log(err);
