@@ -11,7 +11,6 @@ var pollSchema = new Schema({
     "title": String,
     "author": String,
     "body": String,
-    "isClosed": Boolean,
     "views": { type: Number, default: 0 },
     "postDate": { type: String },
 

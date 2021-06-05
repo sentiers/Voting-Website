@@ -181,8 +181,7 @@
                                             <th>제목</th>
                                             <th>조회수</th>
                                             <th>사용자</th>
-                                            <th>날짜</th>
-                                            <th>마감여부</th>
+                                            <th>작성일</th>
                                         </tr>
                                     </thead>
                                     <% datas.forEach(function(data) { %>
@@ -199,9 +198,6 @@
                                                 </td>
                                                 <td>
                                                     <%= data.postDate %>
-                                                </td>
-                                                <td>
-                                                    <%= data.isClosed %>
                                                 </td>
                                             </tr>
                                         </tbody>
