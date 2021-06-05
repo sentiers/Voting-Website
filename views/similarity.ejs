@@ -257,9 +257,11 @@
                                                                                             <% }})}) %>
                                                                         </table>
                                                                     </div>
+                                                                    <% if (count1 != 0) { %>
                                                                     <h6 class="m-0 font-weight-bold text-primary">
                                                                         평균 : <%= (sum1/count1).toFixed(2) %>%
                                                                     </h6>
+                                                                    <% } %>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -316,13 +318,18 @@
 
                                                                         </table>
                                                                     </div>
+                                                                    <% if (count2 != 0) { %>
                                                                     <h6 class="m-0 font-weight-bold text-primary">
                                                                         평균 : <%= (sum2/count2).toFixed(2) %>%
                                                                     </h6>
+                                                                    <% } %>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
+                                                    <h6 class="m-0 font-weight-bold">
+                                                        ※ 다른 투표에 참여하셨나요? 유사도는 현재 카테고리 내에서 타 사용자와의 투표 결과를 분석하여 제공됩니다.<br>투표 참여를 통해 결과의 정확도를 높여보세요.
+                                                    </h6>
                                                 </div>
                                                 
                                             </div>

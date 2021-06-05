@@ -161,7 +161,7 @@
                     <h1 class="h3 mb-4 text-gray-800">나의 프로필</h1>
 
                     <div class="col-lg-6 mb-4">
-                        <div class="card bg-light text-black shadow">
+                        <div class="card border-left-success">
                             <div class="card-body">
                                 사용자 이름: <%= datas.userName %>
                             </div>
@@ -169,7 +169,11 @@
                     </div>
 
                     <div class="col-lg-6 mb-4">
-                        <div class="card bg-light text-black shadow">
+                        <% if(datas.gender==1) { %>
+                        <div class="card border-left-primary">
+                        <% } else { %>
+                        <div class="card border-left-danger">
+                        <% } %>
                             <div class="card-body">
                                 성별:
                                 <% if(datas.gender==1) {%> 남자 <% } %>
@@ -179,7 +183,7 @@
                     </div>
 
                     <div class="col-lg-6 mb-4">
-                        <div class="card bg-light text-black shadow">
+                        <div class="card border-left-info">
                             <div class="card-body">
                                 나이대:
                                 <% if(datas.age==10) {%> 10대 <% } %>

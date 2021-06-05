@@ -183,9 +183,8 @@
                                         <tr>
                                             <th>제목</th>
                                             <th>조회수</th>
-                                            <th>사용자</th>
-                                            <th>날짜</th>            
-                                            <th>마감여부</th>
+                                            <th>작성자</th>
+                                            <th>작성일</th>
                                         </tr>
                                     </thead>
                                     <% datas.forEach(function(data) { %>
@@ -194,8 +193,7 @@
                                             <td><a href="/relationship/<%= data._id %>"><%= data.title %></a></td>
                                             <td><%= data.views %></td>
                                             <td><%= data.author %></td>
-                                            <td><%= data.postDate %></td>                                            
-                                            <td><%= data.isClosed %></td>
+                                            <td><%= data.postDate %></td>
                                         </tr>
                                     </tbody>
                                     <% }) %>
