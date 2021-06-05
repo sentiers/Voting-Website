@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const moment = require('moment');
+require('moment-timezone');
+
 const delay = require('delay');
 
 // 서울시간으로 디폴트
