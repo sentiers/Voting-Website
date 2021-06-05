@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 const delay = require('delay');
 
+// 서울시간으로 디폴트
 moment.tz.setDefault("Asia/Seoul");
 mongoose.set('useFindAndModify', false);
 const Similarity = require('../src/Similarity.js');
