@@ -5,7 +5,7 @@ https://stark-atoll-19657.herokuapp.com/
 
 ## Description
 ‘고민 멈춰!’는 사용자의 고민에 대한 사람들의 투표 결과, 성별과 나이 대 통계와 사용자 간의 유사도 결과를 제공하는 웹사이트입니다
-
+Javascript HTML CSS EJS Node.js MongoDB Heroku
 
 ## Functionality
 1. 회원가입과 로그인
