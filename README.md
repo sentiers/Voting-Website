@@ -1,6 +1,7 @@
 # Voting-Website - 고민멈춰!
 
-데모: https://stark-atoll-19657.herokuapp.com/
+## Demo Website
+https://stark-atoll-19657.herokuapp.com/
 
 ## Description
 ‘고민 멈춰!’는 사용자의 고민에 대한 사람들의 투표 결과, 성별과 나이 대 통계와 사용자 간의 유사도 결과를 제공하는 웹사이트입니다
